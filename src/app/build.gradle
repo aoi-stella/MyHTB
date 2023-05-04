@@ -42,6 +42,8 @@ android {
                             'src\\main\\res\\resources\\main\\menu',
                             'src\\main\\res\\resources\\main\\navigationgraph',
                             'src\\main\\res\\resources\\main\\navigationgraph\\navigation',
+                            'src\\main\\res\\resources\\main\\value',
+                            'src\\main\\res\\resources\\main\\drawable',
 
                             //ログインフラグメント
                             'src\\main\\res\\layouts\\login',
@@ -49,7 +51,7 @@ android {
 
                             //ユーザー情報フラグメント
                             'src\\main\\res\\layouts\\user-info',
-                            'src\\main\\res\\layouts\\user-info\\layout', 'src\\main\\res\\resources\\main\\value',
+                            'src\\main\\res\\layouts\\user-info\\layout',
                     ]
         }
     }

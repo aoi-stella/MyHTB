@@ -2,9 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/loginFragment"
-        android:title="@string/main_navigation_login_title"/>
+        android:title="@string/main_navigation_login_title"
+        android:icon="@drawable/login"/>
 
     <item
         android:id="@+id/userInfoFragment"
-        android:title="@string/main_navigation_user_info_title"/>
+        android:title="@string/main_navigation_user_info_title"
+        android:icon="@drawable/user_info"/>
 </menu>
