@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myhtb.R
+import com.example.myhtb.model.repository.HtbRepository
 
 /**
  * A simple [Fragment] subclass.
