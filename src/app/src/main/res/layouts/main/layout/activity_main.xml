@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,5 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/menu_navigation"/>
+        app:menu="@menu/menu_navigation"
+        tools:ignore="VisualLintBounds" />
 </androidx.drawerlayout.widget.DrawerLayout>
