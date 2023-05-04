@@ -27,5 +27,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/menu_navigation"
-        tools:ignore="VisualLintBounds" />
+        tools:ignore="VisualLintBounds"/>
 </androidx.drawerlayout.widget.DrawerLayout>
