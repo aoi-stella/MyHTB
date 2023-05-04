@@ -48,6 +48,8 @@ android {
                             //ログインフラグメント
                             'src\\main\\res\\layouts\\login',
                             'src\\main\\res\\layouts\\login\\layout',
+                            'src\\main\\res\\resources\\login',
+                            'src\\main\\res\\resources\\login\\drawable',
 
                             //ユーザー情報フラグメント
                             'src\\main\\res\\layouts\\user-info',
