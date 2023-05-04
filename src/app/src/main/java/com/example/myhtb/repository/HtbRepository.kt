@@ -1,4 +1,4 @@
-package com.example.myhtb.model.repository
+package com.example.myhtb.repository
 
 import android.util.Log
 import okhttp3.*
