@@ -49,7 +49,7 @@ android {
 
                             //ユーザー情報フラグメント
                             'src\\main\\res\\layouts\\user-info',
-                            'src\\main\\res\\layouts\\user-info\\layout',
+                            'src\\main\\res\\layouts\\user-info\\layout', 'src\\main\\res\\resources\\main\\value',
                     ]
         }
     }

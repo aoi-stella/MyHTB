@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- TODO : title等を後でstringから参照するように置き換えておくこと -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/loginFragment"
-        android:title="ログイン"/>
+        android:title="@string/main_navigation_login_title"/>
 
     <item
         android:id="@+id/userInfoFragment"
-        android:title="ユーザー情報"/>
+        android:title="@string/main_navigation_user_info_title"/>
 </menu>
