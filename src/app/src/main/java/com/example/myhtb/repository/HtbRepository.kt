@@ -1,5 +1,6 @@
 package com.example.myhtb.repository
 
+import java.util.concurrent.TimeUnit
 import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -25,10 +26,11 @@ object HtbRepository {
     private val JSON_MEDIA = "application/json; charset=utf-8".toMediaType()
 
     private val client = OkHttpClient.Builder()
+        .connectTimeout(5, TimeUnit.SECONDS)
+        .readTimeout(5, TimeUnit.SECONDS)
         .build()
 
-    fun Getv4Token(email: String, password: String) : String? {
-        var token: String? = ""
+    fun Getv4Token(email: String, password: String, callback: (String?) -> Unit) {
         val payload = "{" +
                 "\"${HtbPostTag.PT_EMAIL}\":\"$email\"," +
                 "\"${HtbPostTag.PT_PASSWORD}\":\"$password\"," +
@@ -41,17 +43,18 @@ object HtbRepository {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
-                if(response.body == null)
-                    return
-                token = extractSpecifiedElementFromResponseBody(response.body!!, HtbElement.ELEMENT_ACCESS_TOKEN)
+                if (response.isSuccessful) {
+                    callback(extractSpecifiedElementFromResponseBody(response.body!!, HtbElement.ELEMENT_ACCESS_TOKEN))
+                } else {
+                    callback("")
+                }
             }
 
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("Error", e.toString())
+                callback("")
             }
         })
-
-        return token
     }
 
     private fun extractSpecifiedElementFromResponseBody(
