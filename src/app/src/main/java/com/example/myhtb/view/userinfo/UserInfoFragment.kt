@@ -8,16 +8,21 @@ import androidx.fragment.app.Fragment
 import com.example.myhtb.R
 
 /**
- * A simple [Fragment] subclass.
- * Use the [UserInfoFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * ユーザー情報画面のViewクラス
  */
 class UserInfoFragment : Fragment() {
+
+    /**
+     * onCreateView処理
+     * @param inflater インフレーター
+     * @param container コンテナ
+     * @param savedInstanceState バンドル情報
+     * @return View情報
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user_info, container, false)
     }
 }
