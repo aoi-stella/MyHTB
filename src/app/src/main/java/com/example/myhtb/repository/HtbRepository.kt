@@ -10,7 +10,7 @@ import java.io.IOException
 /**
  * EPのURLを定義するクラス
  */
-object HtbEpUrl{
+private object HtbEpUrl{
     const val EP_PREFIX = "https://www.hackthebox.com"
     const val EP_LOGIN = "/api/v4/login"
 }
@@ -18,7 +18,7 @@ object HtbEpUrl{
 /**
  * POST時のタグ名を定義するクラス
  */
-object  HtbPostTag{
+private object  HtbPostTag{
     const val PT_EMAIL = "email"
     const val PT_PASSWORD = "password"
     const val PT_REMEMBER = "remember"
@@ -27,7 +27,7 @@ object  HtbPostTag{
 /**
  * データ取り出し時の要素名を定義するクラス
  */
-object HtbElement{
+private object HtbElement{
     const val ELEMENT_ACCESS_TOKEN = "access_token"
 }
 
