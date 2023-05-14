@@ -47,12 +47,14 @@ class LoginPage {
 
     /**
      * ログイン機能
-     * @param email セットするEmailアドレス
-     * @param password セットするPassword
+     *
+     * 本テストは事前にEmail及びPasswordがセットされていることが前提である。
+     * そのため、必ずテスト関数 : setEmail() & テスト関数 : setPassword()をコールすること
+     *
      * @return LoginPageオブジェクト
      */
     @Test
-    fun login(email: String, password: String) : LoginPage{
+    fun login() : LoginPage{
         //TODO 後で正しいEmail&Passwordの組み合わせ時の期待値を変えとく
         var correctConnectionStatus = "";
         val isSuccess = true
