@@ -53,12 +53,6 @@ class LoginPage {
      */
     @Test
     fun login(email: String, password: String) : LoginPage{
-        //Emailアドレスセット
-        setEmail(email)
-
-        //Passwordセット
-        setPassword(password)
-
         //TODO 後で正しいEmail&Passwordの組み合わせ時の期待値を変えとく
         var correctConnectionStatus = "";
         val isSuccess = true
@@ -68,12 +62,12 @@ class LoginPage {
             correctConnectionStatus = "No Connection"
 
         //ログインボタン押下
-        val loginButton = onView(withId(R.id.LoginButton))
+        onView(withId(R.id.LoginButton))
             .perform(ViewActions.click())
 
-        //接続実施後のTextViewの状態を確認
+        //接続実施後のConnectionStatusTextViewの状態を確認
         //TODO ログイン処理が終わる前にAssertする可能性があるのでSync?的なのしとく？？
-        val connectionStatusTextView = onView(withId(R.id.ConnectionStatusTextView))
+        onView(withId(R.id.ConnectionStatusTextView))
             .check(matches(isDisplayed()))
             .check(matches(withText(correctConnectionStatus)))
         return this
