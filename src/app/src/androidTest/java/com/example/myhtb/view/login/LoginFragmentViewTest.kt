@@ -60,7 +60,7 @@ class LoginFragmentViewTest {
             )
         )
         textInputEditText2.perform(
-            ViewActions.replaceText("kinoko97577"),
+            ViewActions.replaceText("xxxx"),
             ViewActions.closeSoftKeyboard()
         )
 
