@@ -61,6 +61,7 @@
             android:onClick="@{() -> vm.Login()}"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ConnectionStatusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/LoginButton"
