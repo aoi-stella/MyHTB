@@ -1,5 +1,6 @@
 package com.example.myhtb.view.login
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
@@ -22,66 +23,68 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class LoginFragmentViewTest {
+class LoginPage {
     @get:Rule
     var mActivityTestRule = ActivityTestRule(MainActivityView::class.java)
 
+    /**
+     * Emailアドレス入力機能
+     * @param email セットするEmailアドレス
+     * @return LoginPageオブジェクト
+     */
     @Test
-    fun loginTest() {
-        val textInputEditText = onView(
-            Matchers.allOf(
-                withId(R.id.edittext_email),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.navHostFragment),
-                        0
-                    ),
-                    1
-                ),
-                ViewMatchers.isDisplayed()
-            )
+    fun setEmail(email: String) : LoginPage{
+        onView(withId(R.id.edittext_email)).perform(
+            ViewActions.replaceText(email)
         )
-        textInputEditText.perform(
-            ViewActions.replaceText("ddddd"),
-            ViewActions.closeSoftKeyboard()
-        )
+        return this
+    }
 
-        val textInputEditText2 = onView(
-            Matchers.allOf(
-                withId(R.id.edittext_password),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.navHostFragment),
-                        0
-                    ),
-                    2
-                ),
-                ViewMatchers.isDisplayed()
-            )
+    /**
+     * Password入力機能
+     * @param password セットするパスワード
+     * @return LoginPageオブジェクト
+     */
+    @Test
+    fun setPassword(password: String) : LoginPage{
+        onView(withId(R.id.edittext_password)).perform(
+            ViewActions.replaceText(password)
         )
-        textInputEditText2.perform(
-            ViewActions.replaceText("xxxx"),
-            ViewActions.closeSoftKeyboard()
-        )
+        return this
+    }
 
-        val materialButton = onView(
-            Matchers.allOf(
-                withId(R.id.LoginButton), ViewMatchers.withText("Login"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.navHostFragment),
-                        0
-                    ),
-                    3
-                ),
-                ViewMatchers.isDisplayed()
-            )
-        )
-        materialButton.perform(ViewActions.click())
+    /**
+     * ログイン機能
+     * @param email セットするEmailアドレス
+     * @param password セットするPassword
+     * @return LoginPageオブジェクト
+     */
+    @Test
+    fun login(email: String, password: String) : LoginPage{
+        //Emailアドレスセット
+        setEmail(email)
 
-        onView(Matchers.allOf(withId(R.id.ConnectionStatusTextView)))
+        //Passwordセット
+        setPassword(password)
+
+        //TODO 後で正しいEmail&Passwordの組み合わせ時の期待値を変えとく
+        var correctConnectionStatus = "";
+        val isSuccess = true
+        if(isSuccess)
+            correctConnectionStatus = "Connected"
+        else
+            correctConnectionStatus = "No Connection"
+
+        //ログインボタン押下
+        val loginButton = onView(withId(R.id.LoginButton))
+            .perform(ViewActions.click())
+
+        //接続実施後のTextViewの状態を確認
+        //TODO ログイン処理が終わる前にAssertする可能性があるのでSync?的なのしとく？？
+        val connectionStatusTextView = onView(withId(R.id.ConnectionStatusTextView))
             .check(matches(isDisplayed()))
-            .check(matches(withText("No Connection")))
+            .check(matches(withText(correctConnectionStatus)))
+        return this
     }
 
     private fun childAtPosition(
