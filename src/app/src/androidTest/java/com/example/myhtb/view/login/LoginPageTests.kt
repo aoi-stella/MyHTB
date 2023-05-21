@@ -6,7 +6,9 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
+import androidx.test.uiautomator.By
 import com.example.myhtb.R
+import com.example.myhtb.common.uiUtils
 import com.example.myhtb.view.main.MainActivityView
 import org.junit.Rule
 import org.junit.Test
@@ -59,12 +61,10 @@ class LoginPageTests {
     fun loginSuccessful(){
         val loginPageOperation = LoginPageOperations()
         loginPageOperation
-            .setEmail("xxxxx")
-            .setPassword("yyyy")
+            .setEmail("")
+            .setPassword("")
             .login()
 
-        onView(withId(R.id.ConnectionStatusTextView))
-            .check(matches(isDisplayed()))
-            .check(matches(withText("Connected")))
+        uiUtils.waitForSpecifiedWidget(By.text("Connected"))
     }
 }
