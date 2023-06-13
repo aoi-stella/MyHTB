@@ -1,34 +1,18 @@
 package com.example.myhtb.repository
 
-import java.util.concurrent.TimeUnit
-import android.util.Log
+import com.example.myhtb.interfaces.HtbService
+import com.google.gson.JsonParser
 import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.IOException
-
-/**
- * EPのURLを定義するクラス
- */
-private object HtbEpUrl{
-    const val EP_PREFIX = "https://www.hackthebox.com"
-    const val EP_LOGIN = "/api/v4/login"
-}
-
-/**
- * POST時のタグ名を定義するクラス
- */
-private object  HtbPostTag{
-    const val PT_EMAIL = "email"
-    const val PT_PASSWORD = "password"
-    const val PT_REMEMBER = "remember"
-}
+import okio.IOException
+import retrofit2.HttpException
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * データ取り出し時の要素名を定義するクラス
  */
 private object HtbElement{
-    const val ELEMENT_ACCESS_TOKEN = "access_token"
+    const val ACCESS_TOKEN = "access_token"
 }
 
 /**
@@ -37,53 +21,37 @@ private object HtbElement{
  * 基本的にModelからのみ呼ばれることを想定している
  */
 object HtbRepository {
-    /**
-     * Media変換情報
-     */
-    private val JSON_MEDIA = "application/json; charset=utf-8".toMediaType()
-
-    /**
-     * クライアント
-     * タイムアウト時間は一律5sとする
-     */
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.SECONDS)
-        .readTimeout(5, TimeUnit.SECONDS)
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://www.hackthebox.com/")
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    val service = retrofit.create(HtbService::class.java)
 
     /**
      * アクセストークン取得処理
      * @param email ログイン用メールアドレス
      * @param password ログイン用パスワード
-     * @param callback アクセストークン取得完了時コールバック処理
      *
      * APIを用いてアクセストークン取得を取得する
      */
-    fun Getv4Token(email: String, password: String, callback: (String?) -> Unit) {
-        val payload = "{" +
-                "\"${HtbPostTag.PT_EMAIL}\":\"$email\"," +
-                "\"${HtbPostTag.PT_PASSWORD}\":\"$password\"," +
-                "\"${HtbPostTag.PT_REMEMBER}\":\"true\"" +
-                "}"
-        val request = Request.Builder()
-            .url(HtbEpUrl.EP_PREFIX + HtbEpUrl.EP_LOGIN)
-            .post(payload.toRequestBody(JSON_MEDIA))
-            .build()
+    fun Login(email: String, password: String): String? {
+        var responseBody: ResponseBody? = null
+        var result: String? = null
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    callback(extractSpecifiedElementFromResponseBody(response.body!!, HtbElement.ELEMENT_ACCESS_TOKEN))
-                } else {
-                    callback("")
-                }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Error", e.toString())
-                callback("")
-            }
-        })
+        try {
+            responseBody = service.login(email, password, true)
+            result = extractSpecifiedElementFromResponseBody(responseBody, HtbElement.ACCESS_TOKEN)
+        }
+        catch (e: HttpException){
+            //APIリクエストが失敗した場合
+            //TODO Logマネージャークラスのようなものを作成して追加しておく
+        }
+        catch (e: IOException){
+            //NWエラー・タイムアウトエラーなどが発生した場合
+            //TODO Logマネージャークラスのようなものを作成して追加しておく
+        }
+        return result
     }
 
     /**
@@ -92,20 +60,11 @@ object HtbRepository {
      * @param element 取り出したいエレメント名
      *
      * @return 取り出し結果
-     * 取り出し失敗またはエレメント名が無かった場合は空文字を返却する
+     * 取り出し失敗またはエレメント名が無かった場合はnullを返却する
      */
-    private fun extractSpecifiedElementFromResponseBody(
-        responseBody: ResponseBody,
-        element: String
-    ): String? {
-        //TODO : 何かもうちょいスマートにしたい。ライブラリとか探してparser使うか？？
-        //TODO : あとこの機能はHtb依存じゃないからUtilsみたいなの作ってそっちに移動させるべき
+    private fun extractSpecifiedElementFromResponseBody(responseBody: ResponseBody, element: String): String? {
         val responseBodyStr = responseBody.string()
-        if (responseBodyStr == "")
-            return ""
-
-        val pattern = """"$element"\s*:\s*"(.+?)"""".toRegex()
-        val matchResult = pattern.find(responseBodyStr ?: "")
-        return matchResult?.groups?.get(1)?.value
+        val jsonObject = JsonParser().parse(responseBodyStr).asJsonObject
+        return jsonObject.get(element)?.asString
     }
 }
