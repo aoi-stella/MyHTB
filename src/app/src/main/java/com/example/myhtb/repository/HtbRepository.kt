@@ -42,7 +42,7 @@ object HtbRepository {
 
         try {
             responseBody = service.login(email, password, true)
-            result = Utils.extractSpecifiedElementFromResponseBody(responseBody, HtbElement.ACCESS_TOKEN)
+            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, HtbElement.ACCESS_TOKEN)
         }
         catch (e: HttpException){
             //APIリクエストが失敗した場合
