@@ -1,5 +1,6 @@
 package com.example.myhtb.repository
 
+import com.example.myhtb.Utils
 import com.example.myhtb.interfaces.HtbService
 import com.google.gson.JsonParser
 import okhttp3.*
@@ -41,7 +42,7 @@ object HtbRepository {
 
         try {
             responseBody = service.login(email, password, true)
-            result = extractSpecifiedElementFromResponseBody(responseBody, HtbElement.ACCESS_TOKEN)
+            result = Utils.extractSpecifiedElementFromResponseBody(responseBody, HtbElement.ACCESS_TOKEN)
         }
         catch (e: HttpException){
             //APIリクエストが失敗した場合
@@ -52,19 +53,5 @@ object HtbRepository {
             //TODO Logマネージャークラスのようなものを作成して追加しておく
         }
         return result
-    }
-
-    /**
-     * ResponseBodyクラスの情報から指定したエレメント(element)情報を取り出して返却する
-     * @param responseBody ResponseBody情報
-     * @param element 取り出したいエレメント名
-     *
-     * @return 取り出し結果
-     * 取り出し失敗またはエレメント名が無かった場合はnullを返却する
-     */
-    private fun extractSpecifiedElementFromResponseBody(responseBody: ResponseBody, element: String): String? {
-        val responseBodyStr = responseBody.string()
-        val jsonObject = JsonParser().parse(responseBodyStr).asJsonObject
-        return jsonObject.get(element)?.asString
     }
 }
