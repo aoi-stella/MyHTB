@@ -1,6 +1,5 @@
 package com.example.myhtb.model.login
 
-import androidx.lifecycle.MutableLiveData
 import com.example.myhtb.repository.HtbRepository
 
 /**
@@ -13,7 +12,7 @@ object LoginFragmentModel{
     /**
      * アクセストークン
      */
-    val accessToken = MutableLiveData<String>()
+    var accessToken: String = ""
 
     /**
      * HackTheBoxへのログイン処理を行う
@@ -21,7 +20,15 @@ object LoginFragmentModel{
      * @param email ログイン用メールアドレス
      * @param password ログイン用パスワード
      */
-    fun LoginToHackTheBox(email: String, password: String){
-       HtbRepository.Getv4Token(email, password){ it?.let { it1 -> accessToken.postValue(it1) } }
+    suspend fun LoginToHackTheBox(email: String, password: String) : Boolean{
+        val token = HtbRepository.Login(email, password)
+        if (token != "" && token != null){
+            accessToken = token
+            return true
+        }
+        else{
+            accessToken = ""
+            return false
+        }
     }
 }

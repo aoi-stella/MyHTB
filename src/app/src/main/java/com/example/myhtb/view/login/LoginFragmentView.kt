@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.myhtb.R
 import com.example.myhtb.databinding.FragmentLoginBinding
 import com.example.myhtb.viewmodel.login.LoginFragmentViewModel
@@ -37,29 +38,6 @@ class LoginFragmentView : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentLoginBinding>(inflater, R.layout.fragment_login, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
-        SetObserve()
         return binding.root
     }
-
-    /**
-     * Observeセット
-     */
-    private fun SetObserve(){
-        vm.accessToken.observe(viewLifecycleOwner) { accessToken -> FinishGetToken(accessToken)}
-    }
-
-    /**
-     * アクセストークン取得時実行処理
-     *
-     * @param newAccessToken 取得したアクセストークン情報
-     */
-    private fun FinishGetToken(newAccessToken: String){
-        vm.displayProgressIndicator.postValue(false)
-        if (newAccessToken.isNotEmpty()) {
-            vm.connectionStatus.postValue("Connected")
-        } else {
-            vm.connectionStatus.postValue("No Connection")
-        }
-    }
-
 }

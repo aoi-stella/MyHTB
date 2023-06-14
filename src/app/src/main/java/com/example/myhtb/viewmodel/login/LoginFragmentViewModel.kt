@@ -3,7 +3,11 @@ package com.example.myhtb.viewmodel.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myhtb.model.login.LoginFragmentModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * LoginFragmentのViewModel
@@ -30,10 +34,9 @@ class LoginFragmentViewModel : ViewModel(){
     val connectionStatus = MutableLiveData("No Connection")
 
     /**
-     * アクセストークン情報プロパティ
+     * ログイン画面ViewModel用のScope
      */
-    val accessToken: LiveData<String>
-        get() = LoginFragmentModel.accessToken
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     /**
      * ログイン実行処理
@@ -45,7 +48,22 @@ class LoginFragmentViewModel : ViewModel(){
         if(email.isBlank() || password.isBlank())
             return
 
-        displayProgressIndicator.value = true
-        LoginFragmentModel.LoginToHackTheBox(email, password)
+        updateIndicatorVisible(true)
+        scope.launch {
+            val result = LoginFragmentModel.LoginToHackTheBox(email, password)
+            updateIndicatorVisible(false)
+            updateConnectionStatus(result)
+        }
+    }
+
+    private fun updateIndicatorVisible(showIndicator: Boolean){
+        displayProgressIndicator.value = showIndicator
+    }
+    private fun updateConnectionStatus(isLoginSuccess: Boolean){
+        if (isLoginSuccess){
+            connectionStatus.value = "Connected"
+        }else{
+            connectionStatus.value = "No Connection"
+        }
     }
 }

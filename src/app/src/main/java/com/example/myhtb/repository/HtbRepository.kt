@@ -9,10 +9,13 @@ import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+private object ParentKeys{
+    const val MESSAGE = "message"
+}
 /**
  * データ取り出し時の要素名を定義するクラス
  */
-private object HtbElement{
+private object Elements{
     const val ACCESS_TOKEN = "access_token"
 }
 
@@ -36,13 +39,14 @@ object HtbRepository {
      *
      * APIを用いてアクセストークン取得を取得する
      */
-    fun Login(email: String, password: String): String? {
+    suspend fun Login(email: String, password: String): String? {
         var responseBody: ResponseBody? = null
         var result: String? = null
 
         try {
+            val parentKeys: List<String> = listOf(ParentKeys.MESSAGE)
             responseBody = service.login(email, password, true)
-            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, HtbElement.ACCESS_TOKEN)
+            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys, Elements.ACCESS_TOKEN)
         }
         catch (e: HttpException){
             //APIリクエストが失敗した場合

@@ -12,9 +12,12 @@ object Utils {
      * @return 取り出し結果
      * 取り出し失敗またはエレメント名が無かった場合はnullを返却する
      */
-    fun extractSpecifiedValueFromResponseBody(responseBody: ResponseBody, key: String): String? {
+    fun extractSpecifiedValueFromResponseBody(responseBody: ResponseBody, parentKeys: List<String>, key: String): String? {
         val responseBodyStr = responseBody.string()
-        val jsonObject = JsonParser().parse(responseBodyStr).asJsonObject
+        var jsonObject = JsonParser().parse(responseBodyStr).asJsonObject
+        for (parentKey in parentKeys) {
+            jsonObject = jsonObject.get(parentKey)?.asJsonObject ?: return null
+        }
         return jsonObject.get(key)?.asString
     }
 }
