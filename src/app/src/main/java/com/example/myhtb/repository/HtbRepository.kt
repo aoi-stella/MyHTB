@@ -2,7 +2,6 @@ package com.example.myhtb.repository
 
 import com.example.myhtb.Utils
 import com.example.myhtb.interfaces.HtbService
-import com.google.gson.JsonParser
 import okhttp3.*
 import okio.IOException
 import retrofit2.HttpException
@@ -25,12 +24,12 @@ private object Elements{
  * 基本的にModelからのみ呼ばれることを想定している
  */
 object HtbRepository {
-    val retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl("https://www.hackthebox.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val service = retrofit.create(HtbService::class.java)
+    private val service = retrofit.create(HtbService::class.java)
 
     /**
      * アクセストークン取得処理
@@ -40,7 +39,7 @@ object HtbRepository {
      * APIを用いてアクセストークン取得を取得する
      */
     suspend fun Login(email: String, password: String): String? {
-        var responseBody: ResponseBody? = null
+        val responseBody: ResponseBody
         var result: String? = null
 
         try {
