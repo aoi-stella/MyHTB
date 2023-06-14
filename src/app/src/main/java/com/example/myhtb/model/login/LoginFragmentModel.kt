@@ -12,7 +12,9 @@ object LoginFragmentModel{
     /**
      * アクセストークン
      */
-    var accessToken: String = ""
+    private var _accessToken: String = ""
+    val accessToken: String
+        get() = _accessToken
 
     /**
      * HackTheBoxへのログイン処理を行う
@@ -23,11 +25,11 @@ object LoginFragmentModel{
     suspend fun LoginToHackTheBox(email: String, password: String) : Boolean{
         val token = HtbRepository.Login(email, password)
         if (token != "" && token != null){
-            accessToken = token
+            _accessToken = token
             return true
         }
         else{
-            accessToken = ""
+            _accessToken = ""
             return false
         }
     }
