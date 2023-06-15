@@ -24,8 +24,10 @@ private object Elements{
  * 基本的にModelからのみ呼ばれることを想定している
  */
 object HtbRepository {
+    private const val BASE_URL = "https://www.hackthebox.com/"
+
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://www.hackthebox.com/")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
