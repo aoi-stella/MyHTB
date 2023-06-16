@@ -27,14 +27,27 @@ private object Elements{
  * 基本的にModelからのみ呼ばれることを想定している
  */
 object HtbRepository {
+    /**
+     * タグ名
+     */
     private var TAG = this::class.java.simpleName
+
+    /**
+     * ベースURL
+     */
     private const val BASE_URL = "https://www.hackthebox.com/"
 
+    /**
+     * Retrofitビルダー
+     */
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
+    /**
+     * Retrofitサービス
+     */
     private val service = retrofit.create(HtbService::class.java)
 
     /**
