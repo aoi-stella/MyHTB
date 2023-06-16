@@ -6,11 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myhtb.R
+import com.example.myhtb.logger.Logger
+import com.example.myhtb.repository.HtbRepository
 
 /**
  * ユーザー情報画面のViewクラス
  */
 class UserInfoFragment : Fragment() {
+    /**
+     * タグ名
+     */
+    private var TAG = this::class.java.simpleName
 
     /**
      * onCreateView処理
@@ -23,6 +29,8 @@ class UserInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Logger.LogDebug(TAG, "Start onCreateView")
+        Logger.LogDebug(TAG, "Finish onCreateView")
         return inflater.inflate(R.layout.fragment_user_info, container, false)
     }
 }
