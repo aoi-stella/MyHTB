@@ -1,12 +1,15 @@
 package com.example.myhtb.repository
 
+import android.util.Log
 import com.example.myhtb.Utils
 import com.example.myhtb.interfaces.HtbService
+import com.example.myhtb.logger.Logger
 import okhttp3.*
 import okio.IOException
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
 
 private object ParentKeys{
     const val MESSAGE = "message"
@@ -24,6 +27,7 @@ private object Elements{
  * 基本的にModelからのみ呼ばれることを想定している
  */
 object HtbRepository {
+    private var TAG = this::class.java.simpleName
     private const val BASE_URL = "https://www.hackthebox.com/"
 
     private val retrofit = Retrofit.Builder()
@@ -41,6 +45,8 @@ object HtbRepository {
      * APIを用いてアクセストークン取得を取得する
      */
     suspend fun Login(email: String, password: String): String? {
+        Logger.LogDebug(TAG, "Start Login")
+
         val responseBody: ResponseBody
         var result: String? = null
 
@@ -48,15 +54,17 @@ object HtbRepository {
             val parentKeys: List<String> = listOf(ParentKeys.MESSAGE)
             responseBody = service.login(email, password, true)
             result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys, Elements.ACCESS_TOKEN)
+            Logger.LogDebug(TAG, "Succeed to fetch access token")
         }
-        catch (e: HttpException){
-            //APIリクエストが失敗した場合
-            //TODO Logマネージャークラスのようなものを作成して追加しておく
+        catch (e: Exception){
+            val errorType = when (e) {
+                is HttpException -> "HTTP error"
+                is IOException -> "Network/timeout error"
+                else -> "Unknown error"
+            }
+            Logger.LogError(TAG, "Failed to fetch access token due to $errorType: ${e.message ?: "No error message available"}")
         }
-        catch (e: IOException){
-            //NWエラー・タイムアウトエラーなどが発生した場合
-            //TODO Logマネージャークラスのようなものを作成して追加しておく
-        }
+        Logger.LogDebug(TAG, "Finish Login")
         return result
     }
 }
