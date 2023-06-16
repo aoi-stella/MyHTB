@@ -1,12 +1,9 @@
 package com.example.myhtb.viewmodel.login
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.myhtb.logger.Logger
 import com.example.myhtb.model.login.LoginFragmentModel
-import com.example.myhtb.repository.HtbRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
