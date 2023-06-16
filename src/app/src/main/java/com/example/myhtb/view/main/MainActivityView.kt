@@ -6,12 +6,18 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.myhtb.R
+import com.example.myhtb.logger.Logger
+import com.example.myhtb.repository.HtbRepository
 import com.google.android.material.navigation.NavigationView
 
 /**
  * MainActivityのViewクラス
  */
 class MainActivityView : AppCompatActivity() {
+    /**
+     * タグ名
+     */
+    private var TAG = this::class.java.simpleName
 
     /**
      * DrawerLayoutインスタンス
@@ -26,6 +32,7 @@ class MainActivityView : AppCompatActivity() {
      * @param savedInstanceState バンドル情報
      */
     override fun onCreate(savedInstanceState: Bundle?) {
+        Logger.LogDebug(TAG, "Start onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         drawerLayout = findViewById(R.id.drawerLayout)
@@ -34,7 +41,7 @@ class MainActivityView : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(navView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-
+        Logger.LogDebug(TAG, "Finish onCreate")
     }
 
     /**
@@ -42,7 +49,9 @@ class MainActivityView : AppCompatActivity() {
      * @return ナビゲーションセットアップが成功したかどうか
      */
     override fun onSupportNavigateUp(): Boolean {
+        Logger.LogDebug(TAG, "Start onSupportNavigateUp")
         val navController = this.findNavController(R.id.navHostFragment)
+        Logger.LogDebug(TAG, "Finish onSupportNavigateUp")
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
