@@ -10,12 +10,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.myhtb.R
 import com.example.myhtb.databinding.FragmentLoginBinding
+import com.example.myhtb.logger.Logger
+import com.example.myhtb.repository.HtbRepository
 import com.example.myhtb.viewmodel.login.LoginFragmentViewModel
 
 /**
  * LoginFragmentのViewクラス
  */
 class LoginFragmentView : Fragment() {
+    /**
+     * タグ名
+     */
+    private var TAG = this::class.java.simpleName
+
     /**
      * LoginFragmentのViewModel
      */
@@ -33,11 +40,13 @@ class LoginFragmentView : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Logger.LogDebug(TAG, "Start onCreateView")
         super.onCreateView(inflater, container, savedInstanceState)
 
         val binding = DataBindingUtil.inflate<FragmentLoginBinding>(inflater, R.layout.fragment_login, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+        Logger.LogDebug(TAG, "Finish onCreateView")
         return binding.root
     }
 }
