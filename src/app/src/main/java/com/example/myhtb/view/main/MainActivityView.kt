@@ -7,7 +7,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.myhtb.R
 import com.example.myhtb.logger.Logger
-import com.example.myhtb.repository.HtbRepository
 import com.google.android.material.navigation.NavigationView
 
 /**
