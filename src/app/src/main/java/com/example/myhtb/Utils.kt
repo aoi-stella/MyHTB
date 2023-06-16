@@ -14,6 +14,7 @@ object Utils {
     /**
      * ResponseBodyクラスの情報から指定したエレメント(element)情報を取り出して返却する
      * @param responseBody ResponseBody情報
+     * @param parentKeys keyに辿り着くまでに探索する必要のある親キーリスト
      * @param key 取り出したいキー名
      *
      * @return 取り出し結果
