@@ -23,6 +23,20 @@ class LoginPageTests {
     var mActivityTestRule = ActivityTestRule(MainActivityView::class.java)
 
     /**
+     * 本番環境で使用するEmailアドレス情報をconfig.propertiesファイルから取得する
+     */
+    //TODO issue-#5
+    private val correctEmailAddress
+        get() = ""
+
+    /**
+     * 本番環境で使用するパスワード情報をconfig.propertiesファイルから取得する
+     */
+    //TODO issue-#5
+    private val correctPassword
+        get() = ""
+
+    /**
      * 不正メールアドレスセットによるログイン失敗
      */
     @Test
@@ -30,7 +44,7 @@ class LoginPageTests {
         val loginPageOperation = LoginPageOperations()
         loginPageOperation
             .setEmail("test@gmail.com")
-            .setPassword("xxxx")
+            .setPassword(correctPassword)
             .login()
 
         onView(withId(R.id.ConnectionStatusTextView))
@@ -45,7 +59,7 @@ class LoginPageTests {
     fun loginFailedIncorrectPassword(){
         val loginPageOperation = LoginPageOperations()
         loginPageOperation
-            .setEmail("xxxx")
+            .setEmail(correctEmailAddress)
             .setPassword("hogehoge")
             .login()
 
@@ -61,8 +75,8 @@ class LoginPageTests {
     fun loginSuccessful(){
         val loginPageOperation = LoginPageOperations()
         loginPageOperation
-            .setEmail("")
-            .setPassword("")
+            .setEmail(correctEmailAddress)
+            .setPassword(correctPassword)
             .login()
 
         uiUtils.waitForSpecifiedWidget(By.text("Connected"))
