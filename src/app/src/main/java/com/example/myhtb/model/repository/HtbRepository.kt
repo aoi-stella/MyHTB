@@ -1,8 +1,8 @@
-package com.example.myhtb.repository
+package com.example.myhtb.model.repository
 
 import android.util.Log
 import com.example.myhtb.Utils
-import com.example.myhtb.interfaces.HtbService
+import com.example.myhtb.model.interfaces.HtbService
 import com.example.myhtb.logger.Logger
 import okhttp3.*
 import okio.IOException
@@ -66,7 +66,9 @@ object HtbRepository {
         try {
             val parentKeys: List<String> = listOf(ParentKeys.MESSAGE)
             responseBody = service.login(email, password, true)
-            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys, Elements.ACCESS_TOKEN)
+            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys,
+                Elements.ACCESS_TOKEN
+            )
             Logger.LogDebug(TAG, "Succeed to fetch access token")
         }
         catch (e: Exception){

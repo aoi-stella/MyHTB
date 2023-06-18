@@ -1,7 +1,6 @@
 package com.example.myhtb
 
 import com.example.myhtb.logger.Logger
-import com.example.myhtb.repository.HtbRepository
 import com.google.gson.JsonParser
 import okhttp3.ResponseBody
 

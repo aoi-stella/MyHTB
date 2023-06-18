@@ -1,7 +1,7 @@
 package com.example.myhtb.model.login
 
 import com.example.myhtb.logger.Logger
-import com.example.myhtb.repository.HtbRepository
+import com.example.myhtb.model.repository.HtbRepository
 
 /**
  * LoginFragmentのModel
