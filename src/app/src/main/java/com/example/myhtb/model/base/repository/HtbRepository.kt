@@ -7,6 +7,7 @@ import com.example.myhtb.logger.Logger
 import okhttp3.*
 import okio.IOException
 import retrofit2.HttpException
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
@@ -66,20 +67,49 @@ object HtbRepository {
         try {
             val parentKeys: List<String> = listOf(ParentKeys.MESSAGE)
             responseBody = service.login(email, password, true)
-            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys,
-                Elements.ACCESS_TOKEN
-            )
+            result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys, Elements.ACCESS_TOKEN)
             Logger.LogDebug(TAG, "Succeed to fetch access token")
         }
         catch (e: Exception){
-            val errorType = when (e) {
-                is HttpException -> "HTTP error"
-                is IOException -> "Network/timeout error"
-                else -> "Unknown error"
-            }
-            Logger.LogError(TAG, "Failed to fetch access token due to $errorType: ${e.message ?: "No error message available"}")
+            logError(e, "Failed to fetch access token")
         }
         Logger.LogDebug(TAG, "Finish Login")
         return result
+    }
+
+    /**
+     * ユーザーの基本情報を取得する
+     *
+     * @param authToken 認証トークン
+     * @return ユーザーの基本情報(json形式)
+     */
+    suspend fun GetBasicUserInfo(authToken: String): Response<ResponseBody>? {
+        Logger.LogDebug(TAG, "Start GetBasicUserInfo")
+        return try {
+            val result = service.getBasicUserInfo("Bearer $authToken")
+            Logger.LogDebug(TAG, "Code: ${result.code()}")
+            result.body()?.string()?.let { Logger.LogDebug(TAG, it) }
+            result
+        } catch (e: Exception) {
+            logError(e, "Failed to fetch user info")
+            null
+        } finally {
+            Logger.LogDebug(TAG, "Finish GetBasicUserInfo")
+        }
+    }
+
+    /**
+     * ログエラー処理の共通化
+     *
+     * @param e 例外の種類
+     * @param message 表示するエラーメッセージ
+     */
+    private fun logError(e: Exception, message: String) {
+        val errorType = when (e) {
+            is HttpException -> "HTTP error"
+            is IOException -> "Network/timeout error"
+            else -> "Unknown error"
+        }
+        Logger.LogError(TAG, "$message due to $errorType: ${e.message ?: "No error message available"}")
     }
 }
