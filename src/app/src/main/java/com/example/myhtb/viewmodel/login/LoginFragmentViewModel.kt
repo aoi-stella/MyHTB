@@ -75,11 +75,22 @@ class LoginFragmentViewModel : ViewModel(){
         }
     }
 
+    /**
+     * インジケーター表示状態更新処理
+     *
+     * @param showIndicator インジケーターを表示するかどうか
+     */
     private fun updateIndicatorVisible(showIndicator: Boolean){
         Logger.LogDebug(TAG, "Start updateIndicatorVisible")
         displayProgressIndicator.value = showIndicator
         Logger.LogDebug(TAG, "Finish updateIndicatorVisible")
     }
+
+    /**
+     * 接続状態文字列の更新処理
+     *
+     * @param isLoginSuccess ログインに成功したかどうか
+     */
     private fun updateConnectionStatus(isLoginSuccess: Boolean){
         Logger.LogDebug(TAG, "Start updateConnectionStatus")
 

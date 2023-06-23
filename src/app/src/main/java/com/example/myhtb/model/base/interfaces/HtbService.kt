@@ -17,6 +17,16 @@ private object EP{
 }
 
 interface HtbService {
+
+    /**
+     * 引数を基にログインを行い、認証トークンを取得する
+     *
+     * @param email Emailアドレス
+     * @param password パスワード
+     * @param remember ログイン状態を保持するかどうか
+     *
+     * @return 認証トークン
+     */
     @FormUrlEncoded
     @POST(EP.LOGIN)
     suspend fun login(
