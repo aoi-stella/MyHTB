@@ -1,4 +1,4 @@
-package com.example.myhtb.model.interfaces
+package com.example.myhtb.model.base.interfaces
 
 import okhttp3.ResponseBody
 import retrofit2.Response

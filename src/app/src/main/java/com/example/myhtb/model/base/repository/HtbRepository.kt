@@ -1,8 +1,8 @@
-package com.example.myhtb.model.repository
+package com.example.myhtb.model.base.repository
 
 import android.util.Log
 import com.example.myhtb.Utils
-import com.example.myhtb.model.interfaces.HtbService
+import com.example.myhtb.model.base.interfaces.HtbService
 import com.example.myhtb.logger.Logger
 import okhttp3.*
 import okio.IOException
