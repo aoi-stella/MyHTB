@@ -13,6 +13,6 @@
 
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.example.myhtb.view.userinfo.UserInfoFragment"
+        android:name="com.example.myhtb.view.userinfo.UserInfoFragmentView"
         tools:layout="@layout/fragment_user_info"/>
 </navigation>
