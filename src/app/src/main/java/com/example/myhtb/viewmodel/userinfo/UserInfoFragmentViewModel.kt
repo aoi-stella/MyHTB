@@ -1,5 +1,6 @@
 package com.example.myhtb.viewmodel.userinfo
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class UserInfoFragmentViewModel : ViewModel() {
@@ -9,4 +10,8 @@ class UserInfoFragmentViewModel : ViewModel() {
     private var TAG = this::class.java.simpleName
 
 
+    /**
+     * ユーザー名
+     */
+    val userName = MutableLiveData("test")
 }
