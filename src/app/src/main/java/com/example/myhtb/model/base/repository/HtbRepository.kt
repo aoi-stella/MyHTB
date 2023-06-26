@@ -51,6 +51,7 @@ object HtbRepository {
      */
     private val service = retrofit.create(HtbService::class.java)
 
+    lateinit var AuthToken: String
     /**
      * アクセストークン取得処理
      * @param email ログイン用メールアドレス
@@ -68,6 +69,9 @@ object HtbRepository {
             val parentKeys: List<String> = listOf(ParentKeys.MESSAGE)
             responseBody = service.login(email, password, true)
             result = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys, Elements.ACCESS_TOKEN)
+            if (result != null)
+                AuthToken = result
+
             Logger.LogDebug(TAG, "Succeed to fetch access token")
         }
         catch (e: Exception){
