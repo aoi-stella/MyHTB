@@ -39,7 +39,7 @@ object LoginFragmentModel{
             result = true
         }
         else{
-            Logger.LogDebug(TAG, "Failed to fetch access token")
+            Logger.LogError(TAG, "Failed to fetch access token")
             _accessToken = ""
             result = false
         }
