@@ -75,7 +75,7 @@ object HtbRepository {
             Logger.LogDebug(TAG, "Succeed to fetch access token")
         }
         catch (e: Exception){
-            logError(e, "Failed to fetch access token")
+            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch access token")
         }
         Logger.LogDebug(TAG, "Finish Login")
         return result
@@ -95,25 +95,10 @@ object HtbRepository {
             result.body()?.string()?.let { Logger.LogDebug(TAG, it) }
             result
         } catch (e: Exception) {
-            logError(e, "Failed to fetch user info")
+            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch user info")
             null
         } finally {
             Logger.LogDebug(TAG, "Finish GetBasicUserInfo")
         }
-    }
-
-    /**
-     * ログエラー処理の共通化
-     *
-     * @param e 例外の種類
-     * @param message 表示するエラーメッセージ
-     */
-    private fun logError(e: Exception, message: String) {
-        val errorType = when (e) {
-            is HttpException -> "HTTP error"
-            is IOException -> "Network/timeout error"
-            else -> "Unknown error"
-        }
-        Logger.LogError(TAG, "$message due to $errorType: ${e.message ?: "No error message available"}")
     }
 }

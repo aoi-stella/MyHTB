@@ -1,8 +1,12 @@
 package com.example.myhtb
 
 import com.example.myhtb.logger.Logger
+import com.example.myhtb.model.base.repository.HtbRepository
 import com.google.gson.JsonParser
 import okhttp3.ResponseBody
+import okio.IOException
+import retrofit2.HttpException
+import java.lang.Exception
 
 object Utils {
     /**
@@ -28,5 +32,21 @@ object Utils {
         }
         Logger.LogDebug(TAG, "Finish extractSpecifiedValueFromResponseBody")
         return jsonObject.get(key)?.asString
+    }
+
+    /**
+     * ログエラー処理の共通化
+     *
+     * @param TAG タグ(各クラスが持つTAG変数を渡せばよい)
+     * @param e 例外の種類
+     * @param message 表示するエラーメッセージ
+     */
+    fun PrintLogErrorInfo(TAG: String, e: Exception, message: String) {
+        val errorType = when (e) {
+            is HttpException -> "HTTP error"
+            is IOException -> "Network/timeout error"
+            else -> "Unknown error"
+        }
+        Logger.LogError(TAG, "$message due to $errorType: ${e.message ?: "No error message available"}")
     }
 }
