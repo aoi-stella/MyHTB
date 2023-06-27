@@ -1,5 +1,6 @@
 package com.example.myhtb.model.userinfo
 
+import com.example.myhtb.Utils
 import com.example.myhtb.logger.Logger
 import com.example.myhtb.model.base.repository.HtbRepository
 import okhttp3.ResponseBody
@@ -42,12 +43,7 @@ object UserInfoFragmentModel {
             responseBody!!.body()
         }
         catch (e: Exception){
-            val errorType = when (e) {
-                is HttpException -> "HTTP error"
-                is IOException -> "Network/timeout error"
-                else -> "Unknown error"
-            }
-            Logger.LogError(TAG, "Failed to fetch get user info due to $errorType: ${e.message ?: "No error message available"}")
+            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch get user info")
             null
         }
         finally {
