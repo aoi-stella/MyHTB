@@ -1,17 +1,17 @@
 package com.example.myhtb.model.base.repository
 
-import android.util.Log
 import com.example.myhtb.Utils
 import com.example.myhtb.model.base.interfaces.HtbService
 import com.example.myhtb.logger.Logger
 import okhttp3.*
-import okio.IOException
-import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 
+/**
+ * ParentKeyを定義するシングルトンデータ
+ */
 private object ParentKeys{
     const val MESSAGE = "message"
 }
