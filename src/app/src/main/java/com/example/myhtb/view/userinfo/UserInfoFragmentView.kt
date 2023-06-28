@@ -8,10 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myhtb.R
-import com.example.myhtb.databinding.FragmentLoginBinding
 import com.example.myhtb.databinding.FragmentUserInfoBinding
 import com.example.myhtb.logger.Logger
-import com.example.myhtb.viewmodel.login.LoginFragmentViewModel
 import com.example.myhtb.viewmodel.userinfo.UserInfoFragmentViewModel
 
 /**

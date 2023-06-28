@@ -4,8 +4,6 @@ import com.example.myhtb.Utils
 import com.example.myhtb.logger.Logger
 import com.example.myhtb.model.base.repository.HtbRepository
 import okhttp3.ResponseBody
-import okio.IOException
-import retrofit2.HttpException
 
 /**
  * UserInfoFragmentModel
