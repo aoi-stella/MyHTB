@@ -86,6 +86,12 @@ object HtbRepository {
      *
      * @param authToken 認証トークン
      * @return ユーザーの基本情報(json形式)
+     *
+     * @see
+     * ResponseBody.body()の中身はStream形式のため一度しか読み込めないことに注意する。
+     * ↓公式doc参照↓
+     * https://square.github.io/okhttp/3.x/okhttp/okhttp3/ResponseBody.html
+     *
      */
     suspend fun GetBasicUserInfo(authToken: String): Response<ResponseBody>? {
         Logger.LogDebug(TAG, "Start GetBasicUserInfo")

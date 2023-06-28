@@ -24,6 +24,9 @@ private object Elements{
     const val NAME = "name"
 }
 
+/**
+ * UserInfoFragmentのViewModel
+ */
 class UserInfoFragmentViewModel : ViewModel() {
 
     /**
