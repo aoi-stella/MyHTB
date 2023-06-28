@@ -34,15 +34,10 @@ object HtbRepository {
     private var TAG = this::class.java.simpleName
 
     /**
-     * ベースURL
-     */
-    private const val BASE_URL = "https://www.hackthebox.com/"
-
-    /**
      * Retrofitビルダー
      */
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(Utils.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

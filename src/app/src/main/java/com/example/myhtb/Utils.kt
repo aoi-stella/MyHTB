@@ -14,7 +14,12 @@ object Utils {
     private var TAG = this::class.java.simpleName
 
     /**
-     * ResponseBodyクラスの情報から指定したエレメント(element)情報を取り出して返却する
+     * ベースURL
+     */
+    const val BASE_URL = "https://www.hackthebox.com/"
+
+    /**
+     * ResponseBodyクラスの情報(responseBody)から指定したエレメント(element)情報を取り出して返却する
      * @param responseBody ResponseBody情報
      * @param parentKeys keyに辿り着くまでに探索する必要のある親キーリスト
      * @param key 取り出したいキー名
