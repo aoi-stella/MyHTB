@@ -22,6 +22,8 @@ private object ParentKeys{
  */
 private object Elements{
     const val NAME = "name"
+    const val EMAIL = "email"
+    const val AVATAR = "avatar"
 }
 
 /**
@@ -41,6 +43,16 @@ class UserInfoFragmentViewModel : ViewModel() {
     val userName = MutableLiveData("Unknown")
 
     /**
+     * Emailアドレス
+     */
+    val userEmail = MutableLiveData("Unknown")
+
+    /**
+     * ユーザーアイコン
+     */
+    val userIcon = MutableLiveData("")
+
+    /**
      * ユーザー情報画面ViewModel用のScope
      */
     private val scope = CoroutineScope(Dispatchers.Main)
@@ -49,8 +61,15 @@ class UserInfoFragmentViewModel : ViewModel() {
      * ユーザー基本情報をまとめたデータクラス
      *
      * @param userName ユーザー名
+     * @param userEmail Emailアドレス
      */
-    private data class userBasicInfo(val userName: String)
+    private data class userBasicInfo
+        (
+            val userName: String,
+            val userEmail: String,
+            val userIconEndPoint: String
+        )
+
 
     /**
      * ユーザー基本情報を取得及び更新する
@@ -71,6 +90,8 @@ class UserInfoFragmentViewModel : ViewModel() {
             }
             var userBasicInfo: userBasicInfo? = createUserInfoByResponseBody(result) ?: return@launch
             updateUserName(userBasicInfo!!.userName)
+            updateUserEmail(userBasicInfo!!.userEmail)
+            updateUserIcon(userBasicInfo!!.userIconEndPoint)
 
             Logger.LogDebug(TAG, "Succeed to get basic user info")
         }
@@ -97,7 +118,18 @@ class UserInfoFragmentViewModel : ViewModel() {
      */
     private fun updateUserEmail(userEmail: String){
         Logger.LogDebug(TAG, "Start updateUserEmail")
+
+        this.userEmail.value = userEmail
+
         Logger.LogDebug(TAG, "Finish updateUserEmail")
+    }
+
+    private fun updateUserIcon(userIconEndPoint: String){
+        Logger.LogDebug(TAG, "Start updateUserIcon")
+
+        userIcon.value = Utils.BASE_URL + userIconEndPoint
+
+        Logger.LogDebug(TAG, "Finish updateUserIcon")
     }
 
     /**
@@ -108,12 +140,15 @@ class UserInfoFragmentViewModel : ViewModel() {
      * @return userBasicInfoデータクラス(生成に失敗した場合はnullを返却する)
      */
     private fun createUserInfoByResponseBody(responseBody: ResponseBody) : userBasicInfo?{
-        Logger.LogDebug(TAG, "Start updateUserEmail")
+        Logger.LogDebug(TAG, "Start createUserInfoByResponseBody")
 
+        val responseBodyString = responseBody.string()
         val parentKeys: List<String> = listOf(ParentKeys.INFO)
-        val name = Utils.extractSpecifiedValueFromResponseBody(responseBody, parentKeys, Elements.NAME) ?: return null
+        val name = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.NAME) ?: return null
+        val email = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.EMAIL) ?: return null
+        val iconEndPoint = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.AVATAR) ?: return null
 
-        Logger.LogDebug(TAG, "Finish updateUserEmail")
-        return userBasicInfo(name!!)
+        Logger.LogDebug(TAG, "Finish createUserInfoByResponseBody")
+        return userBasicInfo(name, email, iconEndPoint)
     }
 }

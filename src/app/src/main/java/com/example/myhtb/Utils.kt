@@ -27,7 +27,7 @@ object Utils {
      * @return 取り出し結果
      * 取り出し失敗またはエレメント名が無かった場合はnullを返却する
      */
-    fun extractSpecifiedValueFromResponseBody(responseBody: ResponseBody, parentKeys: List<String>, key: String): String? {
+    fun extractSpecifiedValueFromResponseBody(responseBody: ResponseBody, parentKeys: List<String>, key: String) : String? {
         Logger.LogDebug(TAG, "Start extractSpecifiedValueFromResponseBody")
         val responseBodyStr = responseBody.string()
         var jsonObject = JsonParser().parse(responseBodyStr).asJsonObject
@@ -35,6 +35,25 @@ object Utils {
             jsonObject = jsonObject.get(parentKey)?.asJsonObject ?: return null
         }
         Logger.LogDebug(TAG, "Finish extractSpecifiedValueFromResponseBody")
+        return jsonObject.get(key)?.asString
+    }
+
+    /**
+     * Jsonデータを文字列化した情報(responseBodyString)から指定したエレメント(element)情報を取り出して返却する
+     * @param responseBodyString Jsonデータを文字列化した情報
+     * @param parentKeys keyに辿り着くまでに探索する必要のある親キーリスト
+     * @param key 取り出したいキー名
+     *
+     * @return 取り出し結果
+     * 取り出し失敗またはエレメント名が無かった場合はnullを返却する
+     */
+    fun extractSpecifiedValueFromResponseBodyString(responseBodyString: String, parentKeys: List<String>, key: String) : String? {
+        Logger.LogDebug(TAG, "Start extractSpecifiedValueFromResponseBodyString")
+        var jsonObject = JsonParser().parse(responseBodyString).asJsonObject
+        for (parentKey in parentKeys) {
+            jsonObject = jsonObject.get(parentKey)?.asJsonObject ?: return null
+        }
+        Logger.LogDebug(TAG, "Finish extractSpecifiedValueFromResponseBodyString")
         return jsonObject.get(key)?.asString
     }
 
