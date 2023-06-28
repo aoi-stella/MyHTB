@@ -14,7 +14,8 @@
         android:layout_height="match_parent"
         tools:context=".view.userinfo.UserInfoFragmentView">
 
-        <Button
+        <!-- ユーザーアイコン -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileIcon"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -24,8 +25,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintVertical_bias="0.1"
-            android:text="icon"/>
+            app:userIcon="@{vm.userIcon}"/>
 
+        <!-- ユーザー名 -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/_nameTextView"
             android:layout_width="wrap_content"
@@ -34,13 +36,14 @@
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.45"
-            app:layout_constraintStart_toStartOf="@+id/profileIcon"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toEndOf="@+id/profileIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.12"
             android:textAlignment="center"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@={vm.userName}"
@@ -51,6 +54,35 @@
             app:layout_constraintStart_toEndOf="@id/_nameTextView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.12"
+            android:textAlignment="center"/>
+
+        <!-- Emailアドレス -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/_emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toEndOf="@+id/profileIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.18"
+            android:textAlignment="center"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={vm.userEmail}"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@id/_emailTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.18"
             android:textAlignment="center"/>
 
         <com.google.android.material.button.MaterialButton
