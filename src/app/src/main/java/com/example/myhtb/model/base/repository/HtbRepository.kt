@@ -51,6 +51,9 @@ object HtbRepository {
      */
     private val service = retrofit.create(HtbService::class.java)
 
+    /**
+     * 認証トークン情報
+     */
     lateinit var AuthToken: String
     /**
      * アクセストークン取得処理
