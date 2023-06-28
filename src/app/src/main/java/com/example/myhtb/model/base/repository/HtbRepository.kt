@@ -92,7 +92,6 @@ object HtbRepository {
         return try {
             val result = service.getBasicUserInfo("Bearer $authToken")
             Logger.LogDebug(TAG, "Code: ${result.code()}")
-            result.body()?.string()?.let { Logger.LogDebug(TAG, it) }
             result
         } catch (e: Exception) {
             Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch user info")
