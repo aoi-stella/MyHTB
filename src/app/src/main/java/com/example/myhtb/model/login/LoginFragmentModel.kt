@@ -16,13 +16,6 @@ object LoginFragmentModel{
     private var TAG = this::class.java.simpleName
 
     /**
-     * アクセストークン
-     */
-    private var _accessToken: String = ""
-    val accessToken: String
-        get() = _accessToken
-
-    /**
      * HackTheBoxへのログイン処理を行う
      *
      * @param email ログイン用メールアドレス
@@ -31,18 +24,15 @@ object LoginFragmentModel{
     suspend fun LoginToHackTheBox(email: String, password: String) : Boolean{
         Logger.LogDebug(TAG, "Start LoginToHackTheBox")
 
-        var result: Boolean
         val token = HtbRepository.Login(email, password)
-        if (token != "" && token != null){
-            Logger.LogDebug(TAG, "Succeed to fetch access token")
-            _accessToken = token
-            result = true
-        }
-        else{
-            Logger.LogError(TAG, "Failed to fetch access token")
-            _accessToken = ""
-            result = false
-        }
+        val result =
+            if (token != "" && token != null){
+                Logger.LogDebug(TAG, "Succeed to fetch access token")
+                true
+            } else{
+                Logger.LogError(TAG, "Failed to fetch access token")
+                false
+            }
         Logger.LogDebug(TAG, "Finish LoginToHackTheBox")
         return result
     }
