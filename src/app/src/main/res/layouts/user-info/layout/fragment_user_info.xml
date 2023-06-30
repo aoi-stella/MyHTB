@@ -125,13 +125,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <!--フォロワー数アイコンイメージ-->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/followersShapeableImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/followersTextView"
+                    app:layout_constraintStart_toStartOf="@+id/followersTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/followersTextView"
+                    android:src="@drawable/ic_followers"
+                    app:layout_constraintHorizontal_bias="0.55"/>
+
                 <!-- フォロワー数のテキストビュー -->
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/followersTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Followers"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     android:textAlignment="center"
                     app:layout_constraintStart_toStartOf="@+id/followersValueTextView"
                     app:layout_constraintEnd_toEndOf="@+id/followersValueTextView"
@@ -142,15 +153,27 @@
                     android:id="@+id/followersValueTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="5"
+                    android:text="100"
+                    android:textSize="16dp"
                     android:textAlignment="center"
                     android:textStyle="bold"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/followersTextView"
-                    app:layout_constraintEnd_toStartOf="@+id/button2"
+                    app:layout_constraintEnd_toStartOf="@+id/connectionStatusValueTextView"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
+
+                <!--接続状態アイコンイメージ-->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/connectionStatusShapeableImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/connectionStatusTextView"
+                    app:layout_constraintStart_toStartOf="@+id/connectionStatusTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/connectionStatusTextView"
+                    android:src="@drawable/ic_connection_status"
+                    app:layout_constraintHorizontal_bias="0.5"/>
 
                 <!-- 接続状態のテキストビュー -->
                 <com.google.android.material.textview.MaterialTextView
@@ -160,46 +183,59 @@
                     android:text="Connection"
                     android:textSize="16dp"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toStartOf="@+id/button2"
-                    app:layout_constraintEnd_toEndOf="@+id/button2"
-                    app:layout_constraintBottom_toTopOf="@+id/button2" />
+                    app:layout_constraintStart_toStartOf="@+id/connectionStatusValueTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/connectionStatusValueTextView"
+                    app:layout_constraintBottom_toTopOf="@+id/connectionStatusValueTextView" />
 
                 <!-- 接続状態[value]のテキストビュー -->
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/button2"
+                    android:id="@+id/connectionStatusValueTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="No"
+                    android:textSize="16dp"
                     android:textAlignment="center"
                     android:textStyle="bold"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@+id/followersValueTextView"
                     app:layout_constraintTop_toBottomOf="@+id/connectionStatusTextView"
-                    app:layout_constraintEnd_toStartOf="@+id/button3" />
+                    app:layout_constraintEnd_toStartOf="@+id/subscriptionStatusValueTextView" />
+
+                <!--サブスクリプションアイコンイメージ-->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/subscriptionShapeableImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/subscriptionStatusTextView"
+                    app:layout_constraintStart_toStartOf="@+id/subscriptionStatusTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/subscriptionStatusTextView"
+                    android:src="@drawable/ic_subscriptions"
+                    app:layout_constraintHorizontal_bias="0.5"/>
 
                 <!-- サブスクリプションのテキストビュー -->
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/newTextView"
+                    android:id="@+id/subscriptionStatusTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Subscription"
                     android:textSize="16dp"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toStartOf="@+id/button3"
-                    app:layout_constraintEnd_toEndOf="@+id/button3"
-                    app:layout_constraintBottom_toTopOf="@+id/button3" />
+                    app:layout_constraintStart_toStartOf="@+id/subscriptionStatusValueTextView"
+                    app:layout_constraintEnd_toEndOf="@+id/subscriptionStatusValueTextView"
+                    app:layout_constraintBottom_toTopOf="@+id/subscriptionStatusValueTextView" />
 
                 <!-- サブスクリプション[value]のテキストビュー -->
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/button3"
+                    android:id="@+id/subscriptionStatusValueTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="VIP"
+                    android:textSize="16dp"
                     android:textAlignment="center"
                     android:textStyle="bold"
                     app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/button2"
-                    app:layout_constraintTop_toBottomOf="@+id/newTextView"
+                    app:layout_constraintStart_toEndOf="@+id/connectionStatusValueTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/subscriptionStatusTextView"
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
