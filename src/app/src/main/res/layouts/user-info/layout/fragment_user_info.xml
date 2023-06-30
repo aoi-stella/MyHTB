@@ -253,15 +253,85 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <!-- データ更新ボタン -->
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="125dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom|center"
-                android:text="Reload"
-                android:onClick="@{() -> vm.GetBasicUserInfo()}"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/currentRankShapeableImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_rank"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.1" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/currentRankValueTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="current rank : Noob"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.05"
+                    app:layout_constraintStart_toEndOf="@+id/currentRankShapeableImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.1" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/nextRankValueTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="next rank : Noob"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.05"
+                    app:layout_constraintStart_toEndOf="@+id/currentRankShapeableImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10% out of 100%"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/rankProgressIndicator"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <!-- データ進捗プログレスバー -->
+                <ProgressBar
+                    android:id="@+id/rankProgressIndicator"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="10"
+                    android:secondaryProgress="100"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nextRankValueTextView"
+                    app:layout_constraintVertical_bias="0.35" />
+
+                <!-- データ更新ボタン -->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="125dp"
+                    android:layout_height="50dp"
+                    android:onClick="@{() -> vm.GetBasicUserInfo()}"
+                    android:text="Reload"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rankProgressIndicator"
+                    app:layout_constraintVertical_bias="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </FrameLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
