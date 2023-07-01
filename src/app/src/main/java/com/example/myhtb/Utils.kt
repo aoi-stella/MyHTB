@@ -47,11 +47,13 @@ object Utils {
      * @return 取り出し結果
      * 取り出し失敗またはエレメント名が無かった場合はnullを返却する
      */
-    fun extractSpecifiedValueFromResponseBodyString(responseBodyString: String, parentKeys: List<String>, key: String) : String? {
+    fun extractSpecifiedValueFromResponseBodyString(responseBodyString: String, parentKeys: List<String>?, key: String) : String? {
         Logger.LogDebug(TAG, "Start extractSpecifiedValueFromResponseBodyString")
         var jsonObject = JsonParser().parse(responseBodyString).asJsonObject
-        for (parentKey in parentKeys) {
-            jsonObject = jsonObject.get(parentKey)?.asJsonObject ?: return null
+        if(parentKeys != null){
+            for (parentKey in parentKeys) {
+                jsonObject = jsonObject.get(parentKey)?.asJsonObject ?: return null
+            }
         }
         Logger.LogDebug(TAG, "Finish extractSpecifiedValueFromResponseBodyString")
         return jsonObject.get(key)?.asString

@@ -14,6 +14,7 @@ import retrofit2.http.POST
 private object EP{
     const val LOGIN = "/api/v4/login"
     const val INFO = "/api/v4/user/info"
+    const val CONNECT_STATUS = "/api/v4/user/connection/status"
 }
 
 interface HtbService {
@@ -54,6 +55,17 @@ interface HtbService {
      */
     @GET(EP.INFO)
     suspend fun getBasicUserInfo(
+        @Header("Authorization") authHeader: String
+    ): Response<ResponseBody>
+
+    /**
+     * ユーザーのマシン接続状態を取得する。
+     *
+     * 未接続 : "not connected"
+     * 接続済 : "connected"
+     */
+    @GET(EP.CONNECT_STATUS)
+    suspend fun getMachineConnectionStatus(
         @Header("Authorization") authHeader: String
     ): Response<ResponseBody>
 }

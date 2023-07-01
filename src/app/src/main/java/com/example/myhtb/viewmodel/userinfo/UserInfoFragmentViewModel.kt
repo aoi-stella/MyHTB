@@ -2,11 +2,10 @@ package com.example.myhtb.viewmodel.userinfo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myhtb.Utils
 import com.example.myhtb.logger.Logger
 import com.example.myhtb.model.userinfo.UserInfoFragmentModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
@@ -24,6 +23,8 @@ private object Elements{
     const val NAME = "name"
     const val EMAIL = "email"
     const val AVATAR = "avatar"
+    const val MACHINE_STATUS = "status"
+    const val IS_VIP = "isVip"
 }
 
 /**
@@ -53,21 +54,29 @@ class UserInfoFragmentViewModel : ViewModel() {
     val userIcon = MutableLiveData("")
 
     /**
-     * ユーザー情報画面ViewModel用のScope
+     * マシン接続状態
      */
-    private val scope = CoroutineScope(Dispatchers.Main)
+    val machineConnectionStatus = MutableLiveData("No")
+
+    /**
+     *  VIPかどうか
+     */
+    val isVip = MutableLiveData("Normal")
 
     /**
      * ユーザー基本情報をまとめたデータクラス
      *
      * @param userName ユーザー名
      * @param userEmail Emailアドレス
+     * @param userIconEndPoint ユーザーアイコン用エンドポイントURL
+     * @param isVip vip状態かどうか
      */
     private data class userBasicInfo
         (
             val userName: String,
             val userEmail: String,
-            val userIconEndPoint: String
+            val userIconEndPoint: String,
+            val isVip: String
         )
 
 
@@ -79,23 +88,26 @@ class UserInfoFragmentViewModel : ViewModel() {
      * HtbRepository.ktソース内のGetBasicUserInfoメソッドのコメント文を読むこと
      * 本処理失敗時、表示データは前回のままとする
      */
-    fun GetBasicUserInfo(){
-        Logger.LogDebug(TAG, "Start GetBasicUserInfo")
-        scope.launch {
-            val result = UserInfoFragmentModel.GetBasicUserInfo()
+    fun updateAllInfo(){
+        viewModelScope.launch {
+            val userInfo = UserInfoFragmentModel.GetBasicUserInfo()
+            val machineConnectionInfo = UserInfoFragmentModel.getMachineConnectionStatus()
 
-            if(result == null){
-                Logger.LogError(TAG, "Failed to get basic user info")
+            if(userInfo == null || machineConnectionInfo == null){
+                Logger.LogError(TAG, "Failed to fetch data")
                 return@launch
             }
-            var userBasicInfo: userBasicInfo? = createUserInfoByResponseBody(result) ?: return@launch
-            updateUserName(userBasicInfo!!.userName)
-            updateUserEmail(userBasicInfo!!.userEmail)
-            updateUserIcon(userBasicInfo!!.userIconEndPoint)
 
-            Logger.LogDebug(TAG, "Succeed to get basic user info")
+            var userInfoData: userBasicInfo? = createUserInfoByResponseBody(userInfo) ?: return@launch
+            val machineConnectionData = Utils.extractSpecifiedValueFromResponseBodyString(machineConnectionInfo.string(), null, Elements.MACHINE_STATUS) ?: return@launch
+
+            updateUserName(userInfoData!!.userName)
+            updateUserEmail(userInfoData!!.userEmail)
+            updateUserIcon(userInfoData!!.userIconEndPoint)
+            updateVipStatus(userInfoData!!.isVip)
+            updateMachineConnectionStatus(machineConnectionData)
         }
-        Logger.LogDebug(TAG, "Finish GetBasicUserInfo")
+
     }
 
     /**
@@ -132,6 +144,28 @@ class UserInfoFragmentViewModel : ViewModel() {
         Logger.LogDebug(TAG, "Finish updateUserIcon")
     }
 
+    private fun updateMachineConnectionStatus(status: String){
+        Logger.LogDebug(TAG, "Start updateMachineConnectionStatus")
+
+        if(status == "0")
+            machineConnectionStatus.value = "No"
+        else
+            machineConnectionStatus.value = "Yes"
+
+        Logger.LogDebug(TAG, "Finish updateMachineConnectionStatus")
+    }
+
+    private fun updateVipStatus(status: String){
+        Logger.LogDebug(TAG, "Start updateVipStatus")
+
+        if(status == "false")
+            isVip.value = "Normal"
+        else
+            isVip.value = "VIP"
+
+        Logger.LogDebug(TAG, "Finish updateVipStatus")
+    }
+
     /**
      * ResponseBodyクラスからuserBasicInfoデータクラスを生成する
      *
@@ -147,8 +181,10 @@ class UserInfoFragmentViewModel : ViewModel() {
         val name = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.NAME) ?: return null
         val email = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.EMAIL) ?: return null
         val iconEndPoint = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.AVATAR) ?: return null
+        val isVip = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.IS_VIP) ?: return null
+
 
         Logger.LogDebug(TAG, "Finish createUserInfoByResponseBody")
-        return userBasicInfo(name, email, iconEndPoint)
+        return userBasicInfo(name, email, iconEndPoint, isVip)
     }
 }

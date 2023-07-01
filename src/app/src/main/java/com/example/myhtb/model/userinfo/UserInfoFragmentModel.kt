@@ -48,4 +48,31 @@ object UserInfoFragmentModel {
             Logger.LogDebug(TAG, "Finish GetBasicUserInfo")
         }
     }
+
+    /**
+     * マシン接続状態を取得する
+     *
+     * @return マシン接続状態(json形式)
+     */
+    suspend fun getMachineConnectionStatus(): ResponseBody?{
+        Logger.LogDebug(TAG, "Start getMachineConnectionStatus")
+        val authToken = HtbRepository.AuthToken
+        return try{
+            val responseBody = HtbRepository.getMachineConnectionStatus(authToken)
+
+            if(responseBody != null && !responseBody.isSuccessful){
+                Logger.LogError(TAG, "responseBody is null or responseBody.isSuccessful is false")
+                null
+            }
+            Logger.LogDebug(TAG, "Succeed to fetch machine connection status")
+            responseBody!!.body()
+        }
+        catch (e: Exception){
+            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch machine connection status")
+            null
+        }
+        finally {
+            Logger.LogDebug(TAG, "Finish getMachineConnectionStatus")
+        }
+    }
 }

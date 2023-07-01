@@ -85,7 +85,6 @@ object HtbRepository {
      * @param authToken 認証トークン
      * @return ユーザーの基本情報(json形式)
      *
-     * @see
      * ResponseBody.body()の中身はStream形式のため一度しか読み込めないことに注意する。
      * ↓公式doc参照↓
      * https://square.github.io/okhttp/3.x/okhttp/okhttp3/ResponseBody.html
@@ -102,6 +101,26 @@ object HtbRepository {
             null
         } finally {
             Logger.LogDebug(TAG, "Finish GetBasicUserInfo")
+        }
+    }
+
+    /**
+     * ユーザーのマシン接続状態を取得する
+     *
+     * @param authToken 認証トークン
+     * @return ユーザーのマシン接続状態(json形式)
+     */
+    suspend fun getMachineConnectionStatus(authToken: String): Response<ResponseBody>?{
+        Logger.LogDebug(TAG, "Start getMachineConnectionStatus")
+        return try {
+            val result = service.getMachineConnectionStatus("Bearer $authToken")
+            Logger.LogDebug(TAG, "Code: ${result.code()}")
+            result
+        } catch (e: Exception) {
+            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch machine connection status")
+            null
+        } finally {
+            Logger.LogDebug(TAG, "Finish getMachineConnectionStatus")
         }
     }
 }
