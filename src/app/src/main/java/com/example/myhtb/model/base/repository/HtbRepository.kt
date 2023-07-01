@@ -46,10 +46,9 @@ object HtbRepository {
      */
     private val service = retrofit.create(HtbService::class.java)
 
-    /**
-     * 認証トークン情報
-     */
     lateinit var AuthToken: String
+
+    lateinit var UserId: String
     /**
      * アクセストークン取得処理
      * @param email ログイン用メールアドレス
@@ -94,6 +93,7 @@ object HtbRepository {
         Logger.LogDebug(TAG, "Start GetBasicUserInfo")
         return try {
             val result = service.getBasicUserInfo("Bearer $authToken")
+            extractAndSetUserId(result)
             Logger.LogDebug(TAG, "Code: ${result.code()}")
             result
         } catch (e: Exception) {
@@ -121,6 +121,24 @@ object HtbRepository {
             null
         } finally {
             Logger.LogDebug(TAG, "Finish getMachineConnectionStatus")
+        }
+    }
+
+    /**
+     * ユーザーIdの取得
+     *
+     * @param data service.getBasicUserInfoの戻り値
+     */
+    private fun extractAndSetUserId(data: Response<ResponseBody>){
+        val parentKeysInfo = "info"
+        val keyId = "id"
+
+        data.body()?.let{
+            val parentKeys: List<String> = listOf(parentKeysInfo)
+            val userId = Utils.extractSpecifiedValueFromResponseBody(it, parentKeys, keyId)
+            if(userId.isNullOrBlank())
+                return@let
+            UserId = userId
         }
     }
 }
