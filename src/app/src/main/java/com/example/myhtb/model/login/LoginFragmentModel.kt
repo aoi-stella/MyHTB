@@ -24,7 +24,7 @@ object LoginFragmentModel{
     suspend fun LoginToHackTheBox(email: String, password: String) : Boolean{
         Logger.LogDebug(TAG, "Start LoginToHackTheBox")
 
-        val token = HtbRepository.Login(email, password)
+        val token = HtbRepository.login(email, password)
         val result =
             if (token != "" && token != null){
                 Logger.LogDebug(TAG, "Succeed to fetch access token")

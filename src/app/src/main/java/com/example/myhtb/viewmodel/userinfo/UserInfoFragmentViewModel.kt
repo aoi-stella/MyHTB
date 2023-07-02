@@ -7,36 +7,14 @@ import com.example.myhtb.Utils
 import com.example.myhtb.logger.Logger
 import com.example.myhtb.model.userinfo.UserInfoFragmentModel
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
-
-/**
- * ParentKeyを定義するシングルトンデータ
- */
-private object ParentKeys{
-    const val INFO = "info"
-}
-
-/**
- * データ取り出し時の要素名を定義するクラス
- */
-private object Elements{
-    const val NAME = "name"
-    const val EMAIL = "email"
-    const val AVATAR = "avatar"
-    const val MACHINE_STATUS = "status"
-    const val IS_VIP = "isVip"
-}
 
 /**
  * UserInfoFragmentのViewModel
  */
 class UserInfoFragmentViewModel : ViewModel() {
 
-    /**
-     * タグ名
-     */
+    //タグ名
     private var TAG = this::class.java.simpleName
-
 
     /**
      * ユーザー名
@@ -64,48 +42,15 @@ class UserInfoFragmentViewModel : ViewModel() {
     val isVip = MutableLiveData("Normal")
 
     /**
-     * ユーザー基本情報をまとめたデータクラス
-     *
-     * @param userName ユーザー名
-     * @param userEmail Emailアドレス
-     * @param userIconEndPoint ユーザーアイコン用エンドポイントURL
-     * @param isVip vip状態かどうか
-     */
-    private data class userBasicInfo
-        (
-            val userName: String,
-            val userEmail: String,
-            val userIconEndPoint: String,
-            val isVip: String
-        )
-
-
-    /**
      * ユーザー基本情報を取得及び更新する
-     *
-     * @see
-     * 取得可能な情報は、
-     * HtbRepository.ktソース内のGetBasicUserInfoメソッドのコメント文を読むこと
-     * 本処理失敗時、表示データは前回のままとする
      */
     fun updateAllInfo(){
         viewModelScope.launch {
-            val userInfo = UserInfoFragmentModel.GetBasicUserInfo()
-            val machineConnectionInfo = UserInfoFragmentModel.getMachineConnectionStatus()
-
-            if(userInfo == null || machineConnectionInfo == null){
-                Logger.LogError(TAG, "Failed to fetch data")
-                return@launch
-            }
-
-            var userInfoData: userBasicInfo? = createUserInfoByResponseBody(userInfo) ?: return@launch
-            val machineConnectionData = Utils.extractSpecifiedValueFromResponseBodyString(machineConnectionInfo.string(), null, Elements.MACHINE_STATUS) ?: return@launch
-
-            updateUserName(userInfoData!!.userName)
-            updateUserEmail(userInfoData!!.userEmail)
-            updateUserIcon(userInfoData!!.userIconEndPoint)
-            updateVipStatus(userInfoData!!.isVip)
-            updateMachineConnectionStatus(machineConnectionData)
+            updateUserName(UserInfoFragmentModel.fetchMyUserName())
+            updateUserEmail(UserInfoFragmentModel.fetchMyEmail())
+            updateUserIcon(UserInfoFragmentModel.fetchMyProfileIconEP())
+            updateVipStatus(UserInfoFragmentModel.fetchMyVIPStatus())
+            updateMachineConnectionStatus(UserInfoFragmentModel.fetchMyMachineConnectionStatus())
         }
 
     }
@@ -136,6 +81,11 @@ class UserInfoFragmentViewModel : ViewModel() {
         Logger.LogDebug(TAG, "Finish updateUserEmail")
     }
 
+    /**
+     * ユーザーのアイコン画像を更新する
+     *
+     * @param userIconEndPoint ユーザーアイコン画像用エンドポイント
+     */
     private fun updateUserIcon(userIconEndPoint: String){
         Logger.LogDebug(TAG, "Start updateUserIcon")
 
@@ -144,6 +94,11 @@ class UserInfoFragmentViewModel : ViewModel() {
         Logger.LogDebug(TAG, "Finish updateUserIcon")
     }
 
+    /**
+     * マシン接続状態を更新する
+     *
+     * @param status マシン接続状態
+     */
     private fun updateMachineConnectionStatus(status: String){
         Logger.LogDebug(TAG, "Start updateMachineConnectionStatus")
 
@@ -155,6 +110,11 @@ class UserInfoFragmentViewModel : ViewModel() {
         Logger.LogDebug(TAG, "Finish updateMachineConnectionStatus")
     }
 
+    /**
+     * VIP状態を更新する
+     *
+     * @param status VIP状態
+     */
     private fun updateVipStatus(status: String){
         Logger.LogDebug(TAG, "Start updateVipStatus")
 
@@ -164,27 +124,5 @@ class UserInfoFragmentViewModel : ViewModel() {
             isVip.value = "VIP"
 
         Logger.LogDebug(TAG, "Finish updateVipStatus")
-    }
-
-    /**
-     * ResponseBodyクラスからuserBasicInfoデータクラスを生成する
-     *
-     * @param responseBody HTBRepositoryから取得した結果
-     *
-     * @return userBasicInfoデータクラス(生成に失敗した場合はnullを返却する)
-     */
-    private fun createUserInfoByResponseBody(responseBody: ResponseBody) : userBasicInfo?{
-        Logger.LogDebug(TAG, "Start createUserInfoByResponseBody")
-
-        val responseBodyString = responseBody.string()
-        val parentKeys: List<String> = listOf(ParentKeys.INFO)
-        val name = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.NAME) ?: return null
-        val email = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.EMAIL) ?: return null
-        val iconEndPoint = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.AVATAR) ?: return null
-        val isVip = Utils.extractSpecifiedValueFromResponseBodyString(responseBodyString, parentKeys, Elements.IS_VIP) ?: return null
-
-
-        Logger.LogDebug(TAG, "Finish createUserInfoByResponseBody")
-        return userBasicInfo(name, email, iconEndPoint, isVip)
     }
 }

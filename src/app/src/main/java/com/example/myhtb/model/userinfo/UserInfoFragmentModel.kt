@@ -1,9 +1,7 @@
 package com.example.myhtb.model.userinfo
 
-import com.example.myhtb.Utils
 import com.example.myhtb.logger.Logger
 import com.example.myhtb.model.base.repository.HtbRepository
-import okhttp3.ResponseBody
 
 /**
  * UserInfoFragmentModel
@@ -12,67 +10,61 @@ import okhttp3.ResponseBody
  * 他Modelクラスからのアクセスも考慮してシングルトンこう制とする
  */
 object UserInfoFragmentModel {
-    /**
-     * タグ名
-     */
+    //タグ名
     private var TAG = this::class.java.simpleName
 
     /**
-     * HackTheBox APIを用いて基本的なユーザー情報を取得する。
+     * ユーザー名をRepositoryから取得する
      *
-     * @return ユーザー情報
-     *
-     * @see
-     * 取得可能な情報は、
-     * HtbRepository.ktソース内のGetBasicUserInfoメソッドのコメント文を読むこと
-     *
+     * @return ユーザー名
      */
-    suspend fun GetBasicUserInfo(): ResponseBody?{
-        Logger.LogDebug(TAG, "Start GetBasicUserInfo")
-        val authToken = HtbRepository.AuthToken
-        return try{
-            val responseBody = HtbRepository.GetBasicUserInfo(authToken)
+    suspend fun fetchMyUserName(): String{
+        Logger.LogDebug(TAG, "Start fetchMyUserName")
+        Logger.LogDebug(TAG, "Finish fetchMyUserName")
+        return HtbRepository.fetchUserName()
+    }
 
-            if(responseBody != null && !responseBody.isSuccessful){
-                Logger.LogError(TAG, "responseBody is null or responseBody.isSuccessful is false")
-                null
-            }
-            Logger.LogDebug(TAG, "Succeed to get basic user info")
-            responseBody!!.body()
-        }
-        catch (e: Exception){
-            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch get user info")
-            null
-        }
-        finally {
-            Logger.LogDebug(TAG, "Finish GetBasicUserInfo")
-        }
+    /**
+     * EmailアドレスをRepositoryから取得する
+     *
+     * @return Emailアドレス
+     */
+    suspend fun fetchMyEmail(): String{
+        Logger.LogDebug(TAG, "Start fetchMyEmail")
+        Logger.LogDebug(TAG, "Finish fetchMyEmail")
+        return HtbRepository.fetchMyEmail()
+    }
+
+    /**
+     * プロフィールアイコン画像用エンドポイントを取得する
+     *
+     * @return プロフィールアイコン画像用エンドポイント
+     */
+    suspend fun fetchMyProfileIconEP(): String{
+        Logger.LogDebug(TAG, "Start fetchMyProfileIconEP")
+        Logger.LogDebug(TAG, "Finish fetchMyProfileIconEP")
+        return HtbRepository.fetchMyProfileIconEP()
+    }
+
+    /**
+     * VIP状態を取得する
+     *
+     * @return VIP状態
+     */
+    suspend fun fetchMyVIPStatus(): String{
+        Logger.LogDebug(TAG, "Start fetchMyVIPStatus")
+        Logger.LogDebug(TAG, "Finish fetchMyVIPStatus")
+        return HtbRepository.fetchMyVIPStatus()
     }
 
     /**
      * マシン接続状態を取得する
      *
-     * @return マシン接続状態(json形式)
+     * @return マシン接続状態
      */
-    suspend fun getMachineConnectionStatus(): ResponseBody?{
-        Logger.LogDebug(TAG, "Start getMachineConnectionStatus")
-        val authToken = HtbRepository.AuthToken
-        return try{
-            val responseBody = HtbRepository.getMachineConnectionStatus(authToken)
-
-            if(responseBody != null && !responseBody.isSuccessful){
-                Logger.LogError(TAG, "responseBody is null or responseBody.isSuccessful is false")
-                null
-            }
-            Logger.LogDebug(TAG, "Succeed to fetch machine connection status")
-            responseBody!!.body()
-        }
-        catch (e: Exception){
-            Utils.PrintLogErrorInfo(TAG, e, "Failed to fetch machine connection status")
-            null
-        }
-        finally {
-            Logger.LogDebug(TAG, "Finish getMachineConnectionStatus")
-        }
+    suspend fun fetchMyMachineConnectionStatus(): String{
+        Logger.LogDebug(TAG, "Start fetchMyMachineConnectionStatus")
+        Logger.LogDebug(TAG, "Finish fetchMyMachineConnectionStatus")
+        return HtbRepository.fetchMyMachineConnectionStatus()
     }
 }
