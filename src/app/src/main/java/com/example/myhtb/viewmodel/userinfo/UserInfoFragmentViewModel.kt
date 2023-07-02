@@ -62,6 +62,11 @@ class UserInfoFragmentViewModel : ViewModel() {
     val currentRankPointsInt = MutableLiveData(0)
 
     /**
+     * フォロワー数
+     */
+    val followers = MutableLiveData("0")
+
+    /**
      * ユーザー基本情報を取得及び更新する
      */
     fun updateAllInfo(){
@@ -71,6 +76,7 @@ class UserInfoFragmentViewModel : ViewModel() {
             updateUserIcon(UserInfoFragmentModel.fetchMyProfileIconEP())
             updateVipStatus(UserInfoFragmentModel.fetchMyVIPStatus())
             updateMachineConnectionStatus(UserInfoFragmentModel.fetchMyMachineConnectionStatus())
+            updateFollowersCount(UserInfoFragmentModel.fetchMyFollowersCount())
             updateCurrentRank(UserInfoFragmentModel.fetchMyCurrentRank())
             updateNextRank(UserInfoFragmentModel.fetchMyNextRank())
             updateCurrentRankPoints(UserInfoFragmentModel.fetchMyCurrentRankPoints())
@@ -187,5 +193,18 @@ class UserInfoFragmentViewModel : ViewModel() {
         this.currentRankPointsInt.value = currentRankPoints.toDouble().toInt()
 
         Logger.LogDebug(TAG, "Finish updateCurrentRankPoints")
+    }
+
+    /**
+     * 現在のフォロワー数を更新する
+     *
+     * @param followersCount 現在のフォロワー数
+     */
+    private fun updateFollowersCount(followersCount: String){
+        Logger.LogDebug(TAG, "Start updateFollowersCount")
+
+        this.followers.value = followersCount
+
+        Logger.LogDebug(TAG, "Finish updateFollowersCount")
     }
 }

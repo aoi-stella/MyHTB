@@ -100,4 +100,15 @@ object UserInfoFragmentModel {
         Logger.LogDebug(TAG, "Finish fetchMyCurrentRankPoints")
         return HtbRepository.fetchMyCurrentRankPoints()
     }
+
+    /**
+     * 現在のフォロワー数を取得する
+     *
+     * @return 現在のフォロワー数
+     */
+    suspend fun fetchMyFollowersCount(): String{
+        Logger.LogDebug(TAG, "Start fetchMyFollowersCount")
+        Logger.LogDebug(TAG, "Finish fetchMyFollowersCount")
+        return HtbRepository.fetchMyFollowersCount()
+    }
 }

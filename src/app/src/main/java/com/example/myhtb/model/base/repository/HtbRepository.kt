@@ -32,6 +32,7 @@ private object Elements{
     const val CURRENT_RANK = "rank"
     const val NEXT_RANK = "next_rank"
     const val CURRENT_RANK_POINTS = "current_rank_progress"
+    const val FOLLOWERS = "respects"
 }
 
 /**
@@ -74,6 +75,7 @@ object HtbRepository {
         "",
         "0",
         "0",
+        "0",
         myRankData
     )
 
@@ -85,6 +87,8 @@ object HtbRepository {
      * @param iconEP アイコンの画像用エンドポイント
      * @param vipStatus VIP状態
      * @param machineConnectionStatus マシン接続状態
+     * @param followers フォロワー数
+     * @param rankData ランク情報
      */
     private data class UserProfileData(
         val userName: String,
@@ -92,6 +96,7 @@ object HtbRepository {
         val iconEP: String,
         val vipStatus: String,
         val machineConnectionStatus: String,
+        val followers: String,
         val rankData: RankData)
 
     /**
@@ -363,6 +368,44 @@ object HtbRepository {
     }
 
     /**
+     * ユーザーのフォロワー数を取得する
+     * ○キャッシュ情報が無い場合
+     * 　→新たにデータを取得する
+     *
+     * ○新規データ取得成功時
+     * 　→取得結果を返却する
+     *
+     * ○新規データ取得失敗時
+     * 　→前回の取得結果を保存する
+     * 　→前回の取得結果も無い場合は初期値である"0"を返却する
+     *
+     * @return ユーザーのフォロワー数
+     */
+    suspend fun fetchMyFollowersCount(): String{
+        val oldFollowers = myProfileData.followers
+
+        Logger.LogDebug(TAG, "Start fetchMyFollowersCount")
+        //既にデータを取得済み
+        if(fetchedMyProfileInfo){
+            Logger.LogDebug(TAG, "Already fetched my followers")
+            return oldFollowers
+        }
+
+        //アカウントに未ログインの場合
+        if(!succeedToLoginMyAccount){
+            Logger.LogError(TAG, "Need to login my account")
+            return oldFollowers
+        }
+
+        val result = fetchMyProfileInfo()
+        Logger.LogDebug(TAG, "Finish fetchMyFollowersCount")
+        return if(result)
+            myProfileData.followers
+        else
+            oldFollowers
+    }
+
+    /**
      * ユーザーの現在のランクポイントを取得する
      * ○キャッシュ情報が無い場合
      * 　→新たにデータを取得する
@@ -457,10 +500,12 @@ object HtbRepository {
         val currentRank = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.CURRENT_RANK) ?: return oldProfileData
         val nextRank = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.NEXT_RANK) ?: return oldProfileData
         val nextRankPoints = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.CURRENT_RANK_POINTS) ?: return oldProfileData
+
+        val followers = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.FOLLOWERS) ?: return oldProfileData
         myRankData = RankData(nextRankPoints, currentRank, nextRank)
 
         Logger.LogDebug(TAG, "Finish createProfileData")
-        return UserProfileData(name, email, iconEP, vipStatus, machineConnectionStatus, myRankData)
+        return UserProfileData(name, email, iconEP, vipStatus, machineConnectionStatus, followers, myRankData)
     }
 
     /**
