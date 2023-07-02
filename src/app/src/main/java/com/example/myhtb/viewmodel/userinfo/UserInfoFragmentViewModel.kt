@@ -42,6 +42,26 @@ class UserInfoFragmentViewModel : ViewModel() {
     val isVip = MutableLiveData("Normal")
 
     /**
+     * 現在のランク状態
+     */
+    val currentRank = MutableLiveData("current rank: -")
+
+    /**
+     * 次のランク状態
+     */
+    val nextRank = MutableLiveData("next rank: -")
+
+    /**
+     * 現在のランクポイント
+     */
+    val currentRankPoints = MutableLiveData("-% out of 100%")
+
+    /**
+     * 現在のランクポイント
+     */
+    val currentRankPointsInt = MutableLiveData(0)
+
+    /**
      * ユーザー基本情報を取得及び更新する
      */
     fun updateAllInfo(){
@@ -51,6 +71,9 @@ class UserInfoFragmentViewModel : ViewModel() {
             updateUserIcon(UserInfoFragmentModel.fetchMyProfileIconEP())
             updateVipStatus(UserInfoFragmentModel.fetchMyVIPStatus())
             updateMachineConnectionStatus(UserInfoFragmentModel.fetchMyMachineConnectionStatus())
+            updateCurrentRank(UserInfoFragmentModel.fetchMyCurrentRank())
+            updateNextRank(UserInfoFragmentModel.fetchMyNextRank())
+            updateCurrentRankPoints(UserInfoFragmentModel.fetchMyCurrentRankPoints())
         }
 
     }
@@ -124,5 +147,45 @@ class UserInfoFragmentViewModel : ViewModel() {
             isVip.value = "VIP"
 
         Logger.LogDebug(TAG, "Finish updateVipStatus")
+    }
+
+    /**
+     * 現在のランク状態を更新する
+     *
+     * @param currentRank 現在のランク
+     */
+    private fun updateCurrentRank(currentRank: String){
+        Logger.LogDebug(TAG, "Start updateCurrentRank")
+
+        this.currentRank.value= "current rank: $currentRank"
+
+        Logger.LogDebug(TAG, "Finish updateCurrentRank")
+    }
+
+    /**
+     * 次のランク状態を更新する
+     *
+     * @param nextRank 次のランク
+     */
+    private fun updateNextRank(nextRank: String){
+        Logger.LogDebug(TAG, "Start updateNextRank")
+
+        this.nextRank.value= "next rank: $nextRank"
+
+        Logger.LogDebug(TAG, "Finish updateNextRank")
+    }
+
+    /**
+     * 現在のランクポイントを更新する
+     *
+     * @param currentRankPoints 現在のランクポイント
+     */
+    private fun updateCurrentRankPoints(currentRankPoints: String){
+        Logger.LogDebug(TAG, "Start updateCurrentRankPoints")
+
+        this.currentRankPoints.value= "$currentRankPoints% out of 100%"
+        this.currentRankPointsInt.value = currentRankPoints.toDouble().toInt()
+
+        Logger.LogDebug(TAG, "Finish updateCurrentRankPoints")
     }
 }

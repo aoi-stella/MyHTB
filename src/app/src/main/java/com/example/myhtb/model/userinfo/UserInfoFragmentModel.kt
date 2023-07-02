@@ -67,4 +67,37 @@ object UserInfoFragmentModel {
         Logger.LogDebug(TAG, "Finish fetchMyMachineConnectionStatus")
         return HtbRepository.fetchMyMachineConnectionStatus()
     }
+
+    /**
+     * 現在のランクを取得する
+     *
+     * @return 現在のランク
+     */
+    suspend fun fetchMyCurrentRank(): String{
+        Logger.LogDebug(TAG, "Start fetchMyCurrentRank")
+        Logger.LogDebug(TAG, "Finish fetchMyCurrentRank")
+        return HtbRepository.fetchMyCurrentRank()
+    }
+
+    /**
+     * 次のランクを取得する
+     *
+     * @return 次のランク
+     */
+    suspend fun fetchMyNextRank(): String{
+        Logger.LogDebug(TAG, "Start fetchMyNextRank")
+        Logger.LogDebug(TAG, "Finish fetchMyNextRank")
+        return HtbRepository.fetchMyNextRank()
+    }
+
+    /**
+     * 現在のランクポイントを取得する
+     *
+     * @return 現在のランクポイント
+     */
+    suspend fun fetchMyCurrentRankPoints(): String{
+        Logger.LogDebug(TAG, "Start fetchMyCurrentRankPoints")
+        Logger.LogDebug(TAG, "Finish fetchMyCurrentRankPoints")
+        return HtbRepository.fetchMyCurrentRankPoints()
+    }
 }

@@ -7,6 +7,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 /**
  * EPを定義
@@ -15,6 +16,7 @@ private object EP{
     const val LOGIN = "/api/v4/login"
     const val INFO = "/api/v4/user/info"
     const val CONNECT_STATUS = "/api/v4/user/connection/status"
+    const val PROFILE = "/api/v4/user/profile/basic/"
 }
 
 interface HtbService {
@@ -67,5 +69,17 @@ interface HtbService {
     @GET(EP.CONNECT_STATUS)
     suspend fun getMachineConnectionStatus(
         @Header("Authorization") authHeader: String
+    ): Response<ResponseBody>
+
+    /**
+     * ユーザーのプロフィールを取得する
+     *
+     * @param authHeader 認証トークン
+     * @param userId ユーザーId
+     */
+    @GET(EP.PROFILE + "{userId}")
+    suspend fun getProfile(
+        @Header("Authorization") authHeader: String,
+        @Path("userId") userId: String
     ): Response<ResponseBody>
 }

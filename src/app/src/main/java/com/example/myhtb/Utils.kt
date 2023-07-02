@@ -7,6 +7,12 @@ import okio.IOException
 import retrofit2.HttpException
 import java.lang.Exception
 
+data class RankData(
+    val currentRankPoints: String,
+    val currentRank: String,
+    val nextRank: String,
+)
+
 object Utils {
     /**
      * タグ名

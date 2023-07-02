@@ -1,5 +1,6 @@
 package com.example.myhtb.model.base.repository
 
+import com.example.myhtb.RankData
 import com.example.myhtb.Utils
 import com.example.myhtb.model.base.interfaces.HtbService
 import com.example.myhtb.logger.Logger
@@ -14,6 +15,7 @@ import java.lang.Exception
 private object ParentKeys{
     const val MESSAGE = "message"
     const val INFO = "info"
+    const val PROFILE = "profile"
 }
 
 /**
@@ -21,11 +23,15 @@ private object ParentKeys{
  */
 private object Elements{
     const val ACCESS_TOKEN = "access_token"
+    const val ID = "id"
     const val NAME = "name"
     const val EMAIL = "email"
     const val AVATAR = "avatar"
     const val MACHINE_STATUS = "status"
     const val IS_VIP = "isVip"
+    const val CURRENT_RANK = "rank"
+    const val NEXT_RANK = "next_rank"
+    const val CURRENT_RANK_POINTS = "current_rank_progress"
 }
 
 /**
@@ -55,13 +61,20 @@ object HtbRepository {
     //ユーザー情報画面にてデータ取得を行ったか
     private var fetchedMyProfileInfo: Boolean = false
 
+    private var myRankData: RankData = RankData(
+        "0",
+        "Unknown",
+        "Unknown"
+    )
+
     //自身のプロフィール情報
     private var myProfileData: UserProfileData = UserProfileData(
         "Unknown",
         "Unknown",
         "",
         "0",
-        "0"
+        "0",
+        myRankData
     )
 
     /**
@@ -78,7 +91,8 @@ object HtbRepository {
         val email: String,
         val iconEP: String,
         val vipStatus: String,
-        val machineConnectionStatus: String)
+        val machineConnectionStatus: String,
+        val rankData: RankData)
 
     /**
      * ユーザー名を取得する。
@@ -273,6 +287,120 @@ object HtbRepository {
     }
 
     /**
+     * ユーザーの現在のランクを取得する
+     * ○キャッシュ情報が無い場合
+     * 　→新たにデータを取得する
+     *
+     * ○新規データ取得成功時
+     * 　→取得結果を返却する
+     *
+     * ○新規データ取得失敗時
+     * 　→前回の取得結果を保存する
+     * 　→前回の取得結果も無い場合は初期値である"0"を返却する
+     *
+     * @return ユーザーの現在のランク
+     */
+    suspend fun fetchMyCurrentRank(): String{
+        val oldCurrentRank = myProfileData.rankData.currentRank
+
+        Logger.LogDebug(TAG, "Start fetchMyCurrentRank")
+        //既にデータを取得済み
+        if(fetchedMyProfileInfo){
+            Logger.LogDebug(TAG, "Already fetched my current rank")
+            return oldCurrentRank
+        }
+
+        //アカウントに未ログインの場合
+        if(!succeedToLoginMyAccount){
+            Logger.LogError(TAG, "Need to login my account")
+            return oldCurrentRank
+        }
+
+        val result = fetchMyProfileInfo()
+        Logger.LogDebug(TAG, "Finish fetchMyCurrentRank")
+        return if(result)
+            myProfileData.rankData.currentRank
+        else
+            oldCurrentRank
+    }
+
+    /**
+     * ユーザーの次のランクを取得する
+     * ○キャッシュ情報が無い場合
+     * 　→新たにデータを取得する
+     *
+     * ○新規データ取得成功時
+     * 　→取得結果を返却する
+     *
+     * ○新規データ取得失敗時
+     * 　→前回の取得結果を保存する
+     * 　→前回の取得結果も無い場合は初期値である"0"を返却する
+     *
+     * @return ユーザーの次のランク
+     */
+    suspend fun fetchMyNextRank(): String{
+        val oldNextRank = myProfileData.rankData.nextRank
+
+        Logger.LogDebug(TAG, "Start fetchNextRank")
+        //既にデータを取得済み
+        if(fetchedMyProfileInfo){
+            Logger.LogDebug(TAG, "Already fetched my next rank")
+            return oldNextRank
+        }
+
+        //アカウントに未ログインの場合
+        if(!succeedToLoginMyAccount){
+            Logger.LogError(TAG, "Need to login my account")
+            return oldNextRank
+        }
+
+        val result = fetchMyProfileInfo()
+        Logger.LogDebug(TAG, "Finish fetchNextRank")
+        return if(result)
+            myProfileData.rankData.nextRank
+        else
+            oldNextRank
+    }
+
+    /**
+     * ユーザーの現在のランクポイントを取得する
+     * ○キャッシュ情報が無い場合
+     * 　→新たにデータを取得する
+     *
+     * ○新規データ取得成功時
+     * 　→取得結果を返却する
+     *
+     * ○新規データ取得失敗時
+     * 　→前回の取得結果を保存する
+     * 　→前回の取得結果も無い場合は初期値である"0"を返却する
+     *
+     * @return ユーザーの現在のランクポイント
+     */
+    suspend fun fetchMyCurrentRankPoints(): String{
+        val oldCurrentRankPoints = myProfileData.rankData.currentRankPoints
+
+        Logger.LogDebug(TAG, "Start fetchCurrentRankPoints")
+        //既にデータを取得済み
+        if(fetchedMyProfileInfo){
+            Logger.LogDebug(TAG, "Already fetched my next rank")
+            return oldCurrentRankPoints
+        }
+
+        //アカウントに未ログインの場合
+        if(!succeedToLoginMyAccount){
+            Logger.LogError(TAG, "Need to login my account")
+            return oldCurrentRankPoints
+        }
+
+        val result = fetchMyProfileInfo()
+        Logger.LogDebug(TAG, "Finish fetchCurrentRankPoints")
+        return if(result)
+            myProfileData.rankData.currentRankPoints
+        else
+            oldCurrentRankPoints
+    }
+
+    /**
      * ユーザープロフィール状態を新規取得する。
      *
      * @return 取得に成功したかどうか(true...成功 / false...失敗)
@@ -303,7 +431,7 @@ object HtbRepository {
         val userProfileResponse = service.getBasicUserInfo("Bearer $authToken")
         val userMachineResponse = service.getMachineConnectionStatus("Bearer $authToken")
 
-        val parentKeys: List<String> = listOf(ParentKeys.INFO)
+        var parentKeys: List<String> = listOf(ParentKeys.INFO)
         val oldProfileData = myProfileData
 
         if(!userProfileResponse.isSuccessful || !userMachineResponse.isSuccessful)
@@ -312,14 +440,27 @@ object HtbRepository {
         val userResponseBodyString = userProfileResponse.body()?.string() ?: return oldProfileData
         val machineResponseBodyString = userMachineResponse.body()?.string() ?: return oldProfileData
 
+        val userId = Utils.extractSpecifiedValueFromResponseBodyString(userResponseBodyString, parentKeys, Elements.ID) ?: return oldProfileData
         val name = Utils.extractSpecifiedValueFromResponseBodyString(userResponseBodyString, parentKeys, Elements.NAME) ?: return oldProfileData
         val email = Utils.extractSpecifiedValueFromResponseBodyString(userResponseBodyString, parentKeys, Elements.EMAIL) ?: return oldProfileData
         val iconEP = Utils.extractSpecifiedValueFromResponseBodyString(userResponseBodyString, parentKeys, Elements.AVATAR) ?: return oldProfileData
         val vipStatus = Utils.extractSpecifiedValueFromResponseBodyString(userResponseBodyString, parentKeys, Elements.IS_VIP) ?: return oldProfileData
         val machineConnectionStatus = Utils.extractSpecifiedValueFromResponseBodyString(machineResponseBodyString, null, Elements.MACHINE_STATUS) ?: return oldProfileData
 
+        val userRankResponse = service.getProfile("Bearer $authToken", userId)
+        parentKeys = listOf(ParentKeys.PROFILE)
+        if(!userRankResponse.isSuccessful)
+            return oldProfileData
+
+        val rankResponseBodyString = userRankResponse.body()?.string() ?: return oldProfileData
+
+        val currentRank = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.CURRENT_RANK) ?: return oldProfileData
+        val nextRank = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.NEXT_RANK) ?: return oldProfileData
+        val nextRankPoints = Utils.extractSpecifiedValueFromResponseBodyString(rankResponseBodyString, parentKeys, Elements.CURRENT_RANK_POINTS) ?: return oldProfileData
+        myRankData = RankData(nextRankPoints, currentRank, nextRank)
+
         Logger.LogDebug(TAG, "Finish createProfileData")
-        return UserProfileData(name, email, iconEP, vipStatus, machineConnectionStatus)
+        return UserProfileData(name, email, iconEP, vipStatus, machineConnectionStatus, myRankData)
     }
 
     /**
