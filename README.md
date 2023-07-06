@@ -1,13 +1,14 @@
-# HackTheBoxMobile
-
-![42266](https://github.com/hal-art/MyHTB/assets/113904272/c442e717-76f4-48be-8064-1483789d3046)
-![42267](https://github.com/hal-art/MyHTB/assets/113904272/7bb4c81c-a209-4ccd-995d-083d062610cb)
+<p float="left">
+  <img src="https://github.com/hal-art/MyHTB/assets/113904272/c442e717-76f4-48be-8064-1483789d3046" width="250" />
+  <img src="https://github.com/hal-art/MyHTB/assets/113904272/7bb4c81c-a209-4ccd-995d-083d062610cb" width="250" /> 
+</p>
 
 
 ## 目次
 - [概要](#概要)
 - [機能](#機能)
 - [技術スタック](#技術スタック)
+- [データ構造](#データ構造)
 - [使用方法](#使用方法)
 - [ライセンス](#ライセンス)
 - [連絡先](#連絡先)
@@ -41,7 +42,34 @@ Webサイトにアクセスすることなくユーザー情報を確認でき�
   * Retrofit
   * Gson
 
-## 使用方法(例としてUser Info画面で紹介します)
+##  データ構造
+![名称未設定ファイル drawio](https://github.com/hal-art/MyHTB/assets/113904272/7d5e247b-bec0-468d-bf07-2c3839c29c30)  
+- HackTheBox Server  
+  →マスタデータを管理しています。基本的に本サーバと通信をしてデータを取得します。
+
+- Retrofit(Service)  
+  →HackTheBox Serverと通信を行うServiceインターフェースです。Retrofitライブラリを用いています。
+
+- Repository  
+  →Serviceを用いてデータを取得及びキャッシュします。必要に応じてModelにデータを引き渡します。  
+  →ServiceではResponse<ResponseBody>オブジェクトで結果が返ってきますがそれらから該当データを抽出して保持する役割もここが担います。
+
+- xxModel  
+  →※xxは画面名が入ります。(Login等)  
+  →ViewModelに対しデータを引き渡します。Viewに表示できるように変換する処理以外はこのクラスが担います。
+
+- xxViewModel  
+  →※xxは画面名が入ります。(Login等)  
+  →Modelから取得したデータをViewで表示できるように加工をします。
+
+- xxView  
+  →※xxは画面名が入ります。(Login等)  
+  →データバインドの処理などの初期処理を記載します。  
+  →基本的に各画面のコードビハインドに手を加えないようにしています。
+
+
+## 使用方法  
+※例としてUser Info画面で紹介します  
 1. apkをGooglePlayStore(URL:)からインストールします。
 2. アプリを起動します。
 3. ログイン画面にEmailアドレス及びパスワードを入力します。
