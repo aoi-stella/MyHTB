@@ -41,6 +41,8 @@ Webサイトにアクセスすることなくユーザー情報を確認でき�
 - ライブラリ
   * Retrofit
   * Gson
+  * Glide
+  * Kotlin Routine
 
 ##  データ構造
 ![名称未設定ファイル drawio](https://github.com/hal-art/MyHTB/assets/113904272/7d5e247b-bec0-468d-bf07-2c3839c29c30)  
