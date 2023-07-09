@@ -1,4 +1,4 @@
-package com.example.myhtb.view.login
+package com.halsec.myhtb.view.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.myhtb.R
-import com.example.myhtb.databinding.FragmentLoginBinding
-import com.example.myhtb.logger.Logger
-import com.example.myhtb.viewmodel.login.LoginFragmentViewModel
+import com.halsec.myhtb.R
+import com.halsec.myhtb.databinding.FragmentLoginBinding
+import com.halsec.myhtb.logger.Logger
+import com.halsec.myhtb.viewmodel.login.LoginFragmentViewModel
 
 /**
  * LoginFragmentのViewクラス

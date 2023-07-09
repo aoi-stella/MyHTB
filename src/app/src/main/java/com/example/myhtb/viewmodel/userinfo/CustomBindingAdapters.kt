@@ -1,4 +1,4 @@
-package com.example.myhtb.viewmodel.userinfo
+package com.halsec.myhtb.viewmodel.userinfo
 
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide

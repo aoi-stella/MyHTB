@@ -1,9 +1,9 @@
-package com.example.myhtb.viewmodel.login
+package com.halsec.myhtb.viewmodel.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myhtb.logger.Logger
-import com.example.myhtb.model.login.LoginFragmentModel
+import com.halsec.myhtb.logger.Logger
+import com.halsec.myhtb.model.login.LoginFragmentModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

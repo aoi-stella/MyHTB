@@ -1,4 +1,4 @@
-package com.example.myhtb.common
+package com.halsec.myhtb.common
 
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry

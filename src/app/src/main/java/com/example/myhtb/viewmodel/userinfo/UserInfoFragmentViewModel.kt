@@ -1,11 +1,11 @@
-package com.example.myhtb.viewmodel.userinfo
+package com.halsec.myhtb.viewmodel.userinfo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myhtb.Utils
-import com.example.myhtb.logger.Logger
-import com.example.myhtb.model.userinfo.UserInfoFragmentModel
+import com.halsec.myhtb.Utils
+import com.halsec.myhtb.logger.Logger
+import com.halsec.myhtb.model.userinfo.UserInfoFragmentModel
 import kotlinx.coroutines.launch
 
 /**

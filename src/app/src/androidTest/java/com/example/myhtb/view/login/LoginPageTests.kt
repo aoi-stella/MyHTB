@@ -1,4 +1,4 @@
-package com.example.myhtb.view.login
+package com.halsec.myhtb.view.login
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -7,9 +7,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.uiautomator.By
-import com.example.myhtb.R
-import com.example.myhtb.common.uiUtils
-import com.example.myhtb.view.main.MainActivityView
+import com.halsec.myhtb.R
+import com.halsec.myhtb.common.uiUtils
+import com.halsec.myhtb.view.main.MainActivityView
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

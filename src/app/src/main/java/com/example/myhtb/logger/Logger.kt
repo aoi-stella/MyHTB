@@ -1,4 +1,4 @@
-package com.example.myhtb.logger
+package com.halsec.myhtb.logger
 
 import android.util.Log
 

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.myhtb.viewmodel.login.LoginFragmentViewModel" />
+            type="com.halsec.myhtb.viewmodel.login.LoginFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

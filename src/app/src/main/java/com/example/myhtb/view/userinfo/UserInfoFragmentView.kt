@@ -1,4 +1,4 @@
-package com.example.myhtb.view.userinfo
+package com.halsec.myhtb.view.userinfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.myhtb.R
-import com.example.myhtb.databinding.FragmentUserInfoBinding
-import com.example.myhtb.logger.Logger
-import com.example.myhtb.viewmodel.userinfo.UserInfoFragmentViewModel
+import com.halsec.myhtb.R
+import com.halsec.myhtb.databinding.FragmentUserInfoBinding
+import com.halsec.myhtb.logger.Logger
+import com.halsec.myhtb.viewmodel.userinfo.UserInfoFragmentViewModel
 
 /**
  * ユーザー情報画面のViewクラス

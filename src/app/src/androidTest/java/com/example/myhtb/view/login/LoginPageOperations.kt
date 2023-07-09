@@ -1,9 +1,9 @@
-package com.example.myhtb.view.login
+package com.halsec.myhtb.view.login
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import com.example.myhtb.R
+import com.halsec.myhtb.R
 
 class LoginPageOperations {
     /**

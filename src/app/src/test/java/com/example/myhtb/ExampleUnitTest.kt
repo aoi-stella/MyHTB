@@ -1,4 +1,4 @@
-package com.example.myhtb
+package com.halsec.myhtb
 
 import org.junit.Test
 

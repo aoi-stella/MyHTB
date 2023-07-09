@@ -6,11 +6,11 @@ plugins {
 apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'com.example.myhtb'
+    namespace 'com.halsec.myhtb'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.myhtb"
+        applicationId "com.halsec.myhtb"
         minSdk 29
         targetSdk 33
         versionCode 1

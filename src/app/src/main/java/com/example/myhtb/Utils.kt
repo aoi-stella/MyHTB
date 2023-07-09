@@ -1,6 +1,6 @@
-package com.example.myhtb
+package com.halsec.myhtb
 
-import com.example.myhtb.logger.Logger
+import com.halsec.myhtb.logger.Logger
 import com.google.gson.JsonParser
 import okhttp3.ResponseBody
 import okio.IOException

@@ -1,7 +1,7 @@
-package com.example.myhtb.model.userinfo
+package com.halsec.myhtb.model.userinfo
 
-import com.example.myhtb.logger.Logger
-import com.example.myhtb.model.base.repository.HtbRepository
+import com.halsec.myhtb.logger.Logger
+import com.halsec.myhtb.model.base.repository.HtbRepository
 
 /**
  * UserInfoFragmentModel

@@ -1,12 +1,12 @@
-package com.example.myhtb.view.main
+package com.halsec.myhtb.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.example.myhtb.R
-import com.example.myhtb.logger.Logger
+import com.halsec.myhtb.R
+import com.halsec.myhtb.logger.Logger
 import com.google.android.material.navigation.NavigationView
 
 /**

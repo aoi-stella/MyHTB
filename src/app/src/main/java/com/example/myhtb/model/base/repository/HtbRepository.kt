@@ -1,9 +1,9 @@
-package com.example.myhtb.model.base.repository
+package com.halsec.myhtb.model.base.repository
 
-import com.example.myhtb.RankData
-import com.example.myhtb.Utils
-import com.example.myhtb.model.base.interfaces.HtbService
-import com.example.myhtb.logger.Logger
+import com.halsec.myhtb.RankData
+import com.halsec.myhtb.Utils
+import com.halsec.myhtb.model.base.interfaces.HtbService
+import com.halsec.myhtb.logger.Logger
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

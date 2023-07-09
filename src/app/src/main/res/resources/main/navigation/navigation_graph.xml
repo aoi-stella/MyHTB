@@ -8,11 +8,11 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.myhtb.view.login.LoginFragmentView"
+        android:name="com.halsec.myhtb.view.login.LoginFragmentView"
         tools:layout="@layout/fragment_login"/>
 
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.example.myhtb.view.userinfo.UserInfoFragmentView"
+        android:name="com.halsec.myhtb.view.userinfo.UserInfoFragmentView"
         tools:layout="@layout/fragment_user_info"/>
 </navigation>
