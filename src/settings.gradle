@@ -16,5 +16,5 @@ rootProject.name = "MyHTB"
 include ':app'
 include ':feature'
 include ':data'
-include ':core'
 include ':feature:login'
+include ':core'
