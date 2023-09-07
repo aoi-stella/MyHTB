@@ -6,7 +6,7 @@ object Logger {
     /** 初期化済みかどうか*/
     private var isInitialized: Boolean = false;
 
-    fun LogInit(){
+    fun logInit(){
         Timber.plant()
         isInitialized = true
     }
@@ -17,7 +17,7 @@ object Logger {
      * @param tag タグ名
      * @param message 出力メッセージ
      */
-    fun LogDebug(tag: String, message: String){
+    fun logDebug(tag: String, message: String){
         if(!isInitialized)
             return
 
@@ -30,7 +30,7 @@ object Logger {
      * @param tag タグ名
      * @param message 出力メッセージ
      */
-    fun LogInfo(tag: String, message: String){
+    fun logInfo(tag: String, message: String){
         if(!isInitialized)
             return
 
@@ -43,7 +43,7 @@ object Logger {
      * @param tag タグ名
      * @param message 出力メッセージ
      */
-    fun LogWarn(tag: String, message: String){
+    fun logWarn(tag: String, message: String){
         if(!isInitialized)
             return
 
@@ -56,7 +56,7 @@ object Logger {
      * @param tag タグ名
      * @param message 出力メッセージ
      */
-    fun LogError(tag: String, message: String){
+    fun logError(tag: String, message: String){
         if(!isInitialized)
             return
 
