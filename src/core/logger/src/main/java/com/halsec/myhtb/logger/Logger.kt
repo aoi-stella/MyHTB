@@ -6,8 +6,13 @@ object Logger {
     /** 初期化済みかどうか*/
     private var isInitialized: Boolean = false;
 
-    fun logInit(){
-        Timber.plant()
+    /**
+     * ログ初期化処理
+     * Timberの初期化を行う
+     * このメソッドを呼び出さないとログ出力が行われない(isInitializedがtrueにならない)
+     */
+    fun logPlant(){
+        Timber.plant(Timber.DebugTree())
         isInitialized = true
     }
 
